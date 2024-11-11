@@ -1,0 +1,42 @@
+name: build
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Set up Docker Compose
+        run: |
+          docker compose version || curl -L "https://github.com/docker/compose/releases/download/v2.5.1/docker-compose-linux-$(uname -m)" -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose
+
+      - name: Build and run containers
+        run: |
+          docker compose up -d --build
+
+      - name: Wait for DB healthcheck
+        run: |
+          until [ "`docker inspect -f {{.State.Health.Status}} build_db_1`" == "healthy" ]; do
+            echo "Waiting for DB to become healthy..."
+            sleep 5
+          done
+
+      - name: Wait before tear down
+        run: sleep 5
+
+      - name: Tear down Docker Compose
+        if: always()
+        run: docker compose down
