@@ -20,7 +20,7 @@ const RaceEventResults: React.FC = () => {
         setResults(response.data.results);
         setEventName(response.data.race_event);
       } catch (error) {
-        console.error('Error fetching results:', error);
+        console.error(error);
       }
     };
 

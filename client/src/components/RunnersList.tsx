@@ -15,14 +15,14 @@ const RunnerList: React.FC = () => {
       const response = await axios.get('/api/runners');
       setRunners(response.data);
     } catch (error) {
-      console.error('Błąd podczas pobierania listy zawodników:', error);
+      console.error(error);
     }
   };
 
   return (
     <div>
-      <h2>Lista Zawodników</h2>
-      <Link to="/runners/new">Dodaj nowego zawodnika</Link>
+      <h2>Runner list</h2>
+      <Link to="/runners/new">Add new runner</Link>
       <ul>
         {runners.map((runner) => (
           <li key={runner.id}>

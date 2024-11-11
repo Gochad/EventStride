@@ -15,14 +15,14 @@ const RaceEventList: React.FC = () => {
       const response = await axios.get('/api/race_events');
       setEvents(response.data);
     } catch (error) {
-      console.error('Błąd podczas pobierania listy wydarzeń:', error);
+      console.error(error);
     }
   };
 
   return (
     <div>
-      <h2>Lista Wydarzeń Biegowych</h2>
-      <Link to="/race_events/new">Dodaj nowe wydarzenie</Link>
+      <h2>list of running events</h2>
+      <Link to="/race_events/new">Add new event</Link>
       <ul>
         {events.map((event) => (
           <li key={event.id}>

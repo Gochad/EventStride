@@ -32,24 +32,24 @@ const RaceEventForm: React.FC = () => {
       });
       navigate('/race_events');
     } catch (error) {
-      console.error('Błąd podczas dodawania wydarzenia:', error);
+      console.error(error);
     }
   };
 
   return (
     <div>
-      <h2>Dodaj Nowe Wydarzenie Biegowe</h2>
+      <h2>Add new running event</h2>
       <form onSubmit={handleSubmit}>
         <div>
-          <label>Nazwa:</label>
+          <label>Name:</label>
           <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
         </div>
         <div>
-          <label>Data:</label>
+          <label>Date:</label>
           <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
         </div>
         <div>
-          <label>Dystans (km):</label>
+          <label>Distance (km):</label>
           <input
             type="number"
             value={distance}
@@ -57,22 +57,22 @@ const RaceEventForm: React.FC = () => {
             required
           />
         </div>
-        <h3>Informacje o lokalizacji</h3>
+        <h3>Location info</h3>
         <div>
-          <label>Miasto:</label>
+          <label>City:</label>
           <input type="text" value={city} onChange={(e) => setCity(e.target.value)} required />
         </div>
         <div>
-          <label>Kraj:</label>
+          <label>Country:</label>
           <input type="text" value={country} onChange={(e) => setCountry(e.target.value)} required />
         </div>
-        <h3>Informacje o trasie</h3>
+        <h3>Route</h3>
         <div>
-          <label>Nazwa trasy:</label>
+          <label>Name:</label>
           <input type="text" value={trackName} onChange={(e) => setTrackName(e.target.value)} required />
         </div>
         <div>
-          <label>Dystans trasy (km):</label>
+          <label>Distance (km):</label>
           <input
             type="number"
             value={trackDistance}
@@ -81,7 +81,7 @@ const RaceEventForm: React.FC = () => {
           />
         </div>
         <div>
-          <label>Poziom trudności:</label>
+          <label>Difficulty level:</label>
           <input type="text" value={difficultyLevel} onChange={(e) => setDifficultyLevel(e.target.value)} required />
         </div>
         <button type="submit">Dodaj</button>

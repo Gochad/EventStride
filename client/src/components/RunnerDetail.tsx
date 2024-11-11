@@ -1,4 +1,3 @@
-// src/components/RunnerDetail.tsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Runner } from '../types';
@@ -14,7 +13,7 @@ const RunnerDetail: React.FC = () => {
         const response = await axios.get(`/api/runners/${id}`);
         setRunner(response.data);
       } catch (error) {
-        console.error('Error fetching runner data:', error);
+        console.error(error);
       }
     };
 
@@ -24,15 +23,15 @@ const RunnerDetail: React.FC = () => {
   }, [id]);
 
   if (!runner) {
-    return <div>Ładowanie...</div>;
+    return <div>Loading...</div>;
   }
 
   return (
     <div>
-      <h2>Szczegóły Zawodnika</h2>
-      <p><strong>Imię i nazwisko:</strong> {runner.name}</p>
-      <p><strong>Wiek:</strong> {runner.age}</p>
-      <p><strong>Kategoria:</strong> {runner.category}</p>
+      <h2>Runner details</h2>
+      <p><strong>Name:</strong> {runner.name}</p>
+      <p><strong>Age:</strong> {runner.age}</p>
+      <p><strong>Category:</strong> {runner.category}</p>
     </div>
   );
 };

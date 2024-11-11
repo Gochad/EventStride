@@ -13,7 +13,7 @@ const RaceEventDetail: React.FC = () => {
         const response = await axios.get(`/api/race_events/${id}`);
         setEvent(response.data);
       } catch (error) {
-        console.error('Błąd podczas pobierania danych wydarzenia:', error);
+        console.error(error);
       }
     };
 
@@ -23,19 +23,19 @@ const RaceEventDetail: React.FC = () => {
   }, [id]);
 
   if (!event) {
-    return <div>Ładowanie...</div>;
+    return <div>Loading...</div>;
   }
 
   return (
     <div>
-      <h2>Szczegóły Wydarzenia Biegowego</h2>
-      <p><strong>Nazwa:</strong> {event.name}</p>
-      <p><strong>Data:</strong> {event.date}</p>
-      <p><strong>Dystans:</strong> {event.distance} km</p>
-      <p><strong>Miasto:</strong> {event.location.city}</p>
-      <p><strong>Kraj:</strong> {event.location.country}</p>
-      <p><strong>Trasa:</strong> {event.track.name}</p>
-      <p><strong>Poziom trudności trasy:</strong> {event.track.difficulty_level}</p>
+      <h2>Event details</h2>
+      <p><strong>Name:</strong> {event.name}</p>
+      <p><strong>Date:</strong> {event.date}</p>
+      <p><strong>Distance:</strong> {event.distance} km</p>
+      <p><strong>City:</strong> {event.location.city}</p>
+      <p><strong>Country:</strong> {event.location.country}</p>
+      <p><strong>Route:</strong> {event.track.name}</p>
+      <p><strong>Track difficulty level:</strong> {event.track.difficulty_level}</p>
     </div>
   );
 };
