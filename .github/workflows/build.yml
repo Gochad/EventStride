@@ -25,14 +25,14 @@ jobs:
             sudo curl -L "https://github.com/docker/compose/releases/download/v2.5.1/docker-compose-linux-$(uname -m)" -o /usr/local/bin/docker-compose
             sudo chmod +x /usr/local/bin/docker-compose
           fi
-          
+
       - name: Build and run containers
         run: |
           docker compose up -d --build
 
       - name: Wait for DB healthcheck
         run: |
-          until [ "`docker inspect -f {{.State.Health.Status}} build_db_1`" == "healthy" ]; do
+          until [ "`docker inspect -f {{.State.Health.Status}} eventstride-db-1`" == "healthy" ]; do
             echo "Waiting for DB to become healthy..."
             sleep 5
           done
