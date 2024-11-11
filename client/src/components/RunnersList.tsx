@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import { Runner } from '../types';
+import { 
+  Container, 
+  Typography, 
+  Button, 
+  List, 
+  ListItem, 
+  ListItemText 
+} from '@mui/material';
+import api from '../services/api';
 
 const RunnerList: React.FC = () => {
   const [runners, setRunners] = useState<Runner[]>([]);
@@ -12,25 +20,40 @@ const RunnerList: React.FC = () => {
 
   const fetchRunners = async () => {
     try {
-      const response = await axios.get('/api/runners');
+      const response = await api.get('/runners');
       setRunners(response.data);
     } catch (error) {
-      console.error(error);
+      console.error("Error fetching runners:", error);
     }
   };
 
   return (
-    <div>
-      <h2>Runner list</h2>
-      <Link to="/runners/new">Add new runner</Link>
-      <ul>
+    <Container maxWidth="sm">
+      <Typography variant="h4" gutterBottom>
+        Runner List
+      </Typography>
+      <Button
+        variant="contained"
+        color="primary"
+        component={Link}
+        to="/runners/new"
+        sx={{ marginBottom: 2 }}
+      >
+        Add New Runner
+      </Button>
+      <List>
         {runners.map((runner) => (
-          <li key={runner.id}>
-            <Link to={`/runners/${runner.id}`}>{runner.name}</Link>
-          </li>
+          <ListItem
+            key={runner.id}
+            button
+            component={Link}
+            to={`/runners/${runner.id}`}
+          >
+            <ListItemText primary={runner.name} />
+          </ListItem>
         ))}
-      </ul>
-    </div>
+      </List>
+    </Container>
   );
 };
 

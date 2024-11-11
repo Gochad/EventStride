@@ -1,5 +1,7 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
+import { ThemeProvider, CssBaseline } from '@mui/material';
+import theme from './theme.tsx';
 import Navbar from './components/Navbar.tsx';
 import RunnerList from './components/RunnersList.tsx';
 import RunnerDetail from './components/RunnerDetail.tsx';
@@ -12,7 +14,8 @@ import Home from './components/Home.tsx';
 
 const App = () => {
   return (
-    <div>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -24,7 +27,7 @@ const App = () => {
         <Route path="/race_events/:id/results" element={<RaceEventResults />} />
         <Route path="/race_events/:id" element={<RaceEventDetail />} />
       </Routes>
-    </div>
+    </ThemeProvider>
   );
 };
 

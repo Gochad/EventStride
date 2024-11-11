@@ -1,19 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../services/api';
+
 import { Runner } from '../types';
 import { useParams } from 'react-router-dom';
+import { Container, Typography, Paper, Box, CircularProgress } from '@mui/material';
 
 const RunnerDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [runner, setRunner] = useState<Runner | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchRunner = async () => {
       try {
-        const response = await axios.get(`/api/runners/${id}`);
+        const response = await api.get(`/runners/${id}`);
         setRunner(response.data);
       } catch (error) {
         console.error(error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -22,17 +27,38 @@ const RunnerDetail: React.FC = () => {
     }
   }, [id]);
 
+  if (loading) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+        <CircularProgress />
+      </Box>
+    );
+  }
+
   if (!runner) {
-    return <div>Loading...</div>;
+    return <Typography variant="h6" color="error">Runner not found</Typography>;
   }
 
   return (
-    <div>
-      <h2>Runner details</h2>
-      <p><strong>Name:</strong> {runner.name}</p>
-      <p><strong>Age:</strong> {runner.age}</p>
-      <p><strong>Category:</strong> {runner.category}</p>
-    </div>
+    <Container maxWidth="sm">
+      <Typography variant="h4" gutterBottom>
+        Runner Details
+      </Typography>
+      <Paper elevation={3} sx={{ padding: 3 }}>
+        <Box mb={2}>
+          <Typography variant="h6">Name:</Typography>
+          <Typography variant="body1">{runner.name}</Typography>
+        </Box>
+        <Box mb={2}>
+          <Typography variant="h6">Age:</Typography>
+          <Typography variant="body1">{runner.age}</Typography>
+        </Box>
+        <Box mb={2}>
+          <Typography variant="h6">Category:</Typography>
+          <Typography variant="body1">{runner.category}</Typography>
+        </Box>
+      </Paper>
+    </Container>
   );
 };
 

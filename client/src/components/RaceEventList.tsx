@@ -1,7 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../services/api';
 import { RaceEvent } from '../types';
+import { 
+  Container, 
+  Typography, 
+  Button, 
+  List, 
+  ListItem, 
+  ListItemText, 
+  Divider, 
+} from '@mui/material';
 
 const RaceEventList: React.FC = () => {
   const [events, setEvents] = useState<RaceEvent[]>([]);
@@ -12,7 +21,7 @@ const RaceEventList: React.FC = () => {
 
   const fetchRaceEvents = async () => {
     try {
-      const response = await axios.get('/api/race_events');
+      const response = await api.get('/race_events');
       setEvents(response.data);
     } catch (error) {
       console.error(error);
@@ -20,17 +29,30 @@ const RaceEventList: React.FC = () => {
   };
 
   return (
-    <div>
-      <h2>list of running events</h2>
-      <Link to="/race_events/new">Add new event</Link>
-      <ul>
+    <Container maxWidth="sm">
+      <Typography variant="h4" gutterBottom>
+        List of Running Events
+      </Typography>
+      <Button 
+        variant="contained" 
+        color="primary" 
+        component={Link} 
+        to="/race_events/new" 
+        sx={{ marginBottom: 2 }}
+      >
+        Add New Event
+      </Button>
+      <List>
         {events.map((event) => (
-          <li key={event.id}>
-            <Link to={`/race_events/${event.id}`}>{event.name}</Link>
-          </li>
+          <React.Fragment key={event.id}>
+            <ListItem button component={Link} to={`/race_events/${event.id}`}>
+              <ListItemText primary={event.name} />
+            </ListItem>
+            <Divider />
+          </React.Fragment>
         ))}
-      </ul>
-    </div>
+      </List>
+    </Container>
   );
 };
 

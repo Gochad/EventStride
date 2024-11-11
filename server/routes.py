@@ -19,6 +19,22 @@ def create_runner():
     except Exception as e:
         return jsonify({'error': str(e)}), 400
 
+@api.route('/runners', methods=['GET'])
+def get_runners():
+    try:
+        runners = Runner.query.all() 
+        runners_data = [
+            {
+                'id': runner.id,
+                'name': runner.name,
+                'age': runner.age,
+                'category': runner.category
+            } for runner in runners
+        ]
+        return jsonify(runners_data), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 @api.route('/runners/<int:runner_id>', methods=['GET'])
 def get_runner(runner_id):
     runner = Runner.query.get_or_404(runner_id)

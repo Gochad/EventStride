@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { 
+  Container, 
+  TextField, 
+  Button, 
+  Typography, 
+  Box 
+} from '@mui/material';
+import api from '../services/api';
 
 const RunnerForm: React.FC = () => {
   const [name, setName] = useState('');
@@ -11,7 +18,7 @@ const RunnerForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post('/api/runners', { name, age, category });
+      await api.post('/runners', { name, age, category });
       navigate('/runners');
     } catch (error) {
       console.error('Błąd podczas dodawania zawodnika:', error);
@@ -19,29 +26,52 @@ const RunnerForm: React.FC = () => {
   };
 
   return (
-    <div>
-      <h2>Dodaj Nowego Zawodnika</h2>
+    <Container maxWidth="sm">
+      <Typography variant="h4" gutterBottom>
+        Add new runner
+      </Typography>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>Imię i nazwisko:</label>
-          <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
-        </div>
-        <div>
-          <label>Wiek:</label>
-          <input
+        <Box mb={2}>
+          <TextField
+            label="Name"
+            variant="outlined"
+            fullWidth
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+        </Box>
+        <Box mb={2}>
+          <TextField
+            label="Age"
             type="number"
+            variant="outlined"
+            fullWidth
             value={age}
             onChange={(e) => setAge(e.target.value !== '' ? Number(e.target.value) : '')}
             required
           />
-        </div>
-        <div>
-          <label>Kategoria:</label>
-          <input type="text" value={category} onChange={(e) => setCategory(e.target.value)} required />
-        </div>
-        <button type="submit">Dodaj</button>
+        </Box>
+        <Box mb={2}>
+          <TextField
+            label="Category"
+            variant="outlined"
+            fullWidth
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            required
+          />
+        </Box>
+        <Button 
+          type="submit" 
+          variant="contained" 
+          color="primary" 
+          fullWidth
+        >
+          Add
+        </Button>
       </form>
-    </div>
+    </Container>
   );
 };
 

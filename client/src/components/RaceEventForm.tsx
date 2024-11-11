@@ -1,6 +1,14 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../services/api';
 import { useNavigate } from 'react-router-dom';
+import { 
+  Container, 
+  Typography, 
+  TextField, 
+  Button, 
+  Box, 
+  Divider 
+} from '@mui/material';
 
 const RaceEventForm: React.FC = () => {
   const [name, setName] = useState('');
@@ -16,7 +24,7 @@ const RaceEventForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post('/api/race_events', {
+      await api.post('/race_events', {
         name,
         date,
         distance,
@@ -37,56 +45,115 @@ const RaceEventForm: React.FC = () => {
   };
 
   return (
-    <div>
-      <h2>Add new running event</h2>
+    <Container maxWidth="sm">
+      <Typography variant="h4" gutterBottom>
+        Add New Running Event
+      </Typography>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>Name:</label>
-          <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
-        </div>
-        <div>
-          <label>Date:</label>
-          <input type="date" value={date} onChange={(e) => setDate(e.target.value)} required />
-        </div>
-        <div>
-          <label>Distance (km):</label>
-          <input
+        <Box mb={2}>
+          <TextField
+            label="Event Name"
+            variant="outlined"
+            fullWidth
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+        </Box>
+        <Box mb={2}>
+          <TextField
+            label="Date"
+            type="date"
+            variant="outlined"
+            fullWidth
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+            required
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+        </Box>
+        <Box mb={2}>
+          <TextField
+            label="Distance (km)"
             type="number"
+            variant="outlined"
+            fullWidth
             value={distance}
             onChange={(e) => setDistance(e.target.value !== '' ? Number(e.target.value) : '')}
             required
           />
-        </div>
-        <h3>Location info</h3>
-        <div>
-          <label>City:</label>
-          <input type="text" value={city} onChange={(e) => setCity(e.target.value)} required />
-        </div>
-        <div>
-          <label>Country:</label>
-          <input type="text" value={country} onChange={(e) => setCountry(e.target.value)} required />
-        </div>
-        <h3>Route</h3>
-        <div>
-          <label>Name:</label>
-          <input type="text" value={trackName} onChange={(e) => setTrackName(e.target.value)} required />
-        </div>
-        <div>
-          <label>Distance (km):</label>
-          <input
+        </Box>
+
+        <Divider sx={{ my: 3 }} />
+        <Typography variant="h6" gutterBottom>
+          Location Info
+        </Typography>
+
+        <Box mb={2}>
+          <TextField
+            label="City"
+            variant="outlined"
+            fullWidth
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+            required
+          />
+        </Box>
+        <Box mb={2}>
+          <TextField
+            label="Country"
+            variant="outlined"
+            fullWidth
+            value={country}
+            onChange={(e) => setCountry(e.target.value)}
+            required
+          />
+        </Box>
+
+        <Divider sx={{ my: 3 }} />
+        <Typography variant="h6" gutterBottom>
+          Route
+        </Typography>
+
+        <Box mb={2}>
+          <TextField
+            label="Track Name"
+            variant="outlined"
+            fullWidth
+            value={trackName}
+            onChange={(e) => setTrackName(e.target.value)}
+            required
+          />
+        </Box>
+        <Box mb={2}>
+          <TextField
+            label="Track Distance (km)"
             type="number"
+            variant="outlined"
+            fullWidth
             value={trackDistance}
             onChange={(e) => setTrackDistance(e.target.value !== '' ? Number(e.target.value) : '')}
             required
           />
-        </div>
-        <div>
-          <label>Difficulty level:</label>
-          <input type="text" value={difficultyLevel} onChange={(e) => setDifficultyLevel(e.target.value)} required />
-        </div>
-        <button type="submit">Dodaj</button>
+        </Box>
+        <Box mb={2}>
+          <TextField
+            label="Difficulty Level"
+            variant="outlined"
+            fullWidth
+            value={difficultyLevel}
+            onChange={(e) => setDifficultyLevel(e.target.value)}
+            required
+          />
+        </Box>
+
+        <Button type="submit" variant="contained" color="primary" fullWidth>
+          Add Event
+        </Button>
       </form>
-    </div>
+    </Container>
   );
 };
 
