@@ -4,6 +4,10 @@ from datetime import datetime
 
 api = Blueprint('api', __name__)
 
+@api.route('/health', methods=['GET'])
+def health():
+    return jsonify({"status": "healthy"}), 200
+
 @api.route('/runners', methods=['POST'])
 def create_runner():
     data = request.get_json()
