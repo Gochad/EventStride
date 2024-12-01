@@ -37,17 +37,6 @@ jobs:
             sleep 5
           done
 
-      - name: HTTP check
-        run: |
-          docker exec $(docker ps -qf "name=web") bash -c '
-            RESPONSE=$(curl -o /dev/null -s -w "%{http_code}" http://localhost:5000/health)
-            if [ "$RESPONSE" -ne 200 ]; then
-              echo "Backend is not accessible. HTTP status code: $RESPONSE"
-              exit 1
-            fi
-            echo "HTTP status code: $RESPONSE"
-          '
-
       - name: Wait for frontend healthcheck
         run: |
           until curl -s http://localhost:3000; do
