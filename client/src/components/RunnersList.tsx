@@ -23,7 +23,7 @@ const RunnerList: React.FC = () => {
       const response = await api.get('/runners');
       setRunners(response.data);
     } catch (error) {
-      console.error("Error fetching runners:", error);
+      console.error("Error fetching runners:", error.response || error.message);
     }
   };
 

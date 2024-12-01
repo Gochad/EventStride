@@ -1,13 +1,14 @@
 from flask import Flask
 from flask_cors import CORS 
-from config import Config
-from routes import api
-from models import db
 import time
 from sqlalchemy.exc import OperationalError
 from sqlalchemy import text
 import logging
 import sys
+
+from config import Config
+from routes.api import api
+from models import db
 
 logging.basicConfig(
     level=logging.INFO,
@@ -19,7 +20,7 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
     db.init_app(app)
-    CORS(app, resources={r"/*": {"origins": "*", "methods": "*"}})
+    CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
     app.register_blueprint(api, url_prefix='/api')
     
     create_database(app)
