@@ -1,4 +1,4 @@
-from models.models import db
+from app import db
 from models.runner import Runner
 from models.raceevent import RaceEvent as Model
 from domain.raceevent import RaceEvent

@@ -1,5 +1,5 @@
 from datetime import datetime
-from . import db
+from app import db
 
 registrations = db.Table('registrations',
     db.Column('runner_id', db.Integer, db.ForeignKey('runners.id'), primary_key=True),

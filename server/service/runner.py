@@ -1,4 +1,4 @@
-from models import db
+from app import db
 from models.runner import Runner as Model
 from domain.runner import Runner
 
