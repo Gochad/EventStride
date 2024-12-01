@@ -2,7 +2,7 @@ from app import db
 from models.runner import Runner
 from models.raceevent import RaceEvent as Model
 from domain.raceevent import RaceEvent
-from .notification_gateway import NotificationGateway
+from notifications.gateway import NotificationGateway
 
 class RaceEventService:
     @staticmethod
