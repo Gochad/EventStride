@@ -45,7 +45,6 @@ const RunnerList: React.FC = () => {
         {runners.map((runner) => (
           <ListItem
             key={runner.id}
-            button
             component={Link}
             to={`/runners/${runner.id}`}
           >

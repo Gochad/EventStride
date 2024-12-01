@@ -2,6 +2,7 @@ from flask import request, jsonify
 from . import api
 from service.runner import RunnerService
 from service.raceevent import RaceEventService
+from service.sponsor import SponsorService
 
 @api.route('/health', methods=['GET'])
 def health():
@@ -29,7 +30,7 @@ def get_runners():
             }
             for runner in runners
         ]
-        
+
         return jsonify(runners_data), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 500
@@ -57,5 +58,26 @@ def register_runner_for_event(event_id):
     try:
         RaceEventService.add_runner_to_event(event_id, data['runner_id'])
         return jsonify({'message': 'Runner registered for race event successfully'}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+
+@api.route('/sponsors', methods=['POST'])
+def create_sponsor():
+    data = request.get_json()
+    try:
+        sponsor = SponsorService.create_sponsor(data)
+        return jsonify({
+            'message': 'Sponsor created successfully',
+            'sponsor_id': sponsor.id
+        }), 201
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+
+@api.route('/race_events/<int:event_id>/add_sponsor', methods=['POST'])
+def add_sponsor_to_event(event_id):
+    data = request.get_json()
+    try:
+        sponsor = SponsorService.add_sponsor_to_event(event_id, data)
+        return jsonify({'message': 'Sponsor added successfully', 'sponsor_id': sponsor.id}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 400

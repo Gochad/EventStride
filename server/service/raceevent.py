@@ -2,6 +2,7 @@ from app import db
 from models.runner import Runner
 from models.raceevent import RaceEvent as Model
 from domain.raceevent import RaceEvent
+from .notification_gateway import NotificationGateway
 
 class RaceEventService:
     @staticmethod
@@ -40,3 +41,9 @@ class RaceEventService:
             event.sponsors.append(sponsor)
         db.session.commit()
         return event
+
+    @staticmethod
+    def notify_runners(event_id, message):
+        event = Model.query.get_or_404(event_id)
+        for runner in event.runners:
+            NotificationGateway.send_email_notification(message, runner)

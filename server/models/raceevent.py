@@ -23,3 +23,7 @@ class RaceEvent(db.Model):
 
     def get_results(self):
         return sorted(self.results, key=lambda result: result.position)
+
+    def add_sponsor(self, sponsor):
+        if sponsor not in self.sponsors:
+            self.sponsors.append(sponsor)

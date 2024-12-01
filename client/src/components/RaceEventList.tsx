@@ -45,7 +45,7 @@ const RaceEventList: React.FC = () => {
       <List>
         {events.map((event) => (
           <React.Fragment key={event.id}>
-            <ListItem button component={Link} to={`/race_events/${event.id}`}>
+            <ListItem component={Link} to={`/race_events/${event.id}`}>
               <ListItemText primary={event.name} />
             </ListItem>
             <Divider />
