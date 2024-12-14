@@ -16,6 +16,8 @@ services:
       retries: 5
 
   web:
+    volumes:
+    - ./tmp:/tmp
     build: ./server
     environment:
       - FLASK_ENV=development
