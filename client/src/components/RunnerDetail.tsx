@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import api from '../services/api';
+import { fetchRunnerById } from '../services/api';
 
 import { Runner } from '../types';
 import { useParams } from 'react-router-dom';
@@ -11,20 +11,20 @@ const RunnerDetail: React.FC = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchRunner = async () => {
+    const loadRunner = async () => {
       try {
-        const response = await api.get(`/runners/${id}`);
-        setRunner(response.data);
+        if (id) {
+          const data = await fetchRunnerById(id);
+          setRunner(data);
+        }
       } catch (error) {
-        console.error(error);
+        console.error('Error loading runner:', error);
       } finally {
         setLoading(false);
       }
     };
 
-    if (id) {
-      fetchRunner();
-    }
+    loadRunner();
   }, [id]);
 
   if (loading) {

@@ -7,7 +7,7 @@ import {
   Typography, 
   Box 
 } from '@mui/material';
-import api from '../services/api';
+import { createRunner } from '../services/api';
 
 const RunnerForm: React.FC = () => {
   const [name, setName] = useState('');
@@ -20,7 +20,7 @@ const RunnerForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await api.post('/runners', { name, age, number, email, category });
+      await createRunner({ name, age: Number(age), number, email, category });
       navigate('/runners');
     } catch (error) {
       console.error('Błąd podczas dodawania zawodnika:', error);

@@ -9,23 +9,23 @@ import {
   ListItem, 
   ListItemText 
 } from '@mui/material';
-import api from '../services/api';
+import { fetchRunners } from '../services/api';
 
 const RunnerList: React.FC = () => {
   const [runners, setRunners] = useState<Runner[]>([]);
 
   useEffect(() => {
-    fetchRunners();
-  }, []);
+    const loadRunners = async () => {
+      try {
+        const data = await fetchRunners();
+        setRunners(data);
+      } catch (error) {
+        console.error("Error loading runners:", error);
+      }
+    };
 
-  const fetchRunners = async () => {
-    try {
-      const response = await api.get('/runners');
-      setRunners(response.data);
-    } catch (error) {
-      console.error("Error fetching runners:", error.response || error.message);
-    }
-  };
+    loadRunners();
+  }, []);
 
   return (
     <Container maxWidth="sm">
