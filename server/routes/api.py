@@ -11,10 +11,14 @@ def health():
 @api.route('/runners', methods=['POST'])
 def create_runner():
     data = request.get_json()
+
+    print("data: ", data)
+
     try:
         runner = RunnerService.create_runner(data)
         return jsonify({'message': 'Runner created successfully', 'runner_id': runner.id}), 201
     except Exception as e:
+        print("Error during commit:", str(e))
         return jsonify({'error': str(e)}), 400
     
 @api.route('/runners', methods=['GET'])

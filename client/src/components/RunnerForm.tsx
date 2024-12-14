@@ -13,12 +13,14 @@ const RunnerForm: React.FC = () => {
   const [name, setName] = useState('');
   const [age, setAge] = useState<number | ''>('');
   const [category, setCategory] = useState('');
+  const [number, setNumber] = useState('');
+  const [email, setEmail] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await api.post('/runners', { name, age, category });
+      await api.post('/runners', { name, age, number, email, category });
       navigate('/runners');
     } catch (error) {
       console.error('Błąd podczas dodawania zawodnika:', error);
@@ -49,6 +51,26 @@ const RunnerForm: React.FC = () => {
             fullWidth
             value={age}
             onChange={(e) => setAge(e.target.value !== '' ? Number(e.target.value) : '')}
+            required
+          />
+        </Box>
+        <Box mb={2}>
+          <TextField
+            label="Phone number"
+            variant="outlined"
+            fullWidth
+            value={number}
+            onChange={(e) => setNumber(e.target.value)}
+            required
+          />
+        </Box>
+        <Box mb={2}>
+          <TextField
+            label="Email"
+            variant="outlined"
+            fullWidth
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
         </Box>

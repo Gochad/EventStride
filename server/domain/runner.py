@@ -17,7 +17,7 @@ class Runner:
             email = model.email,
             number = model.number,
             category = model.category,
-            events = [event.id for event in model.events]
+            #events = [event.id for event in model.events]
         )
 
     def register_for_race(self, race_event):

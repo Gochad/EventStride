@@ -2,6 +2,8 @@ export interface Runner {
     id: number;
     name: string;
     age: number;
+    number: string,
+    email: string;
     category: string;
 }
   

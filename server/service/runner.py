@@ -15,6 +15,8 @@ class RunnerService:
         new_runner = Model(
             name=data['name'],
             age=data['age'],
+            number=data['number'],
+            email=data['email'],
             category=data['category']
         )
         db.session.add(new_runner)
