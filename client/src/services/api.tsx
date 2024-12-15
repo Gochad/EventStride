@@ -35,4 +35,26 @@ export const fetchRunnerById = async (id) => {
   }
 };
 
+export const fetchEvents = async () => {
+  try {
+    const response = await api.get('/race_events');
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching events:', error);
+    throw error;
+  }
+};
+
+export const assignRunnerToEvent = async (runnerId: number, eventId: number) => {
+  try {
+    const response = await api.post(`/race_events/${eventId}/register_runner`, {
+      runner_id: runnerId,
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error assigning runner to event:', error);
+    throw error;
+  }
+};
+
 export default api;

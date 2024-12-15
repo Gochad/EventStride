@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import api from '../services/api.tsx';
-import { RaceEvent } from '../types';
+import { RaceEvent, Runner } from '../types';
 import { useParams } from 'react-router-dom';
 import {
   Container,
@@ -8,6 +8,9 @@ import {
   Paper,
   Box,
   CircularProgress,
+  List,
+  ListItem,
+  ListItemText,
 } from '@mui/material';
 
 const RaceEventDetail: React.FC = () => {
@@ -21,7 +24,7 @@ const RaceEventDetail: React.FC = () => {
       try {
         const response = await api.get(`/race_events/${id}`);
         setEvent(response.data);
-        setError(null); // Clear any previous errors
+        setError(null);
       } catch (error: any) {
         console.error('Error fetching event:', error);
         setError(error.response?.data?.error || 'Failed to fetch event details.');
@@ -98,6 +101,25 @@ const RaceEventDetail: React.FC = () => {
         <Box mb={2}>
           <Typography variant="h6">Track Difficulty Level:</Typography>
           <Typography variant="body1">{event.track?.difficulty_level || 'N/A'}</Typography>
+        </Box>
+        <Box mt={4}>
+          <Typography variant="h5" gutterBottom>
+            Runners
+          </Typography>
+          {event.runners && event.runners.length > 0 ? (
+            <List>
+              {event.runners.map((runner: Runner) => (
+                <ListItem key={runner.id}>
+                  <ListItemText
+                    primary={runner.name}
+                    secondary={`Age: ${runner.age}, Category: ${runner.category}`}
+                  />
+                </ListItem>
+              ))}
+            </List>
+          ) : (
+            <Typography variant="body1">No runners registered for this event.</Typography>
+          )}
         </Box>
       </Paper>
     </Container>

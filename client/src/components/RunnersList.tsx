@@ -1,31 +1,52 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Runner } from '../types';
+import { RaceEvent, Runner } from '../types';
 import { 
   Container, 
   Typography, 
   Button, 
   List, 
   ListItem, 
-  ListItemText 
+  ListItemText, 
+  Select, 
+  MenuItem 
 } from '@mui/material';
-import { fetchRunners } from '../services/api.tsx';
+import { fetchRunners, fetchEvents, assignRunnerToEvent } from '../services/api.tsx';
 
 const RunnerList: React.FC = () => {
   const [runners, setRunners] = useState<Runner[]>([]);
+  const [events, setEvents] = useState([]);
+  const [selectedEvent, setSelectedEvent] = useState<number | null>(null);
 
   useEffect(() => {
-    const loadRunners = async () => {
+    const loadRunnersAndEvents = async () => {
       try {
-        const data = await fetchRunners();
-        setRunners(data);
+        const runnersData = await fetchRunners();
+        setRunners(runnersData);
+
+        const eventsData = await fetchEvents();
+        setEvents(eventsData);
       } catch (error) {
-        console.error("Error loading runners:", error);
+        console.error("Error loading data:", error);
       }
     };
 
-    loadRunners();
+    loadRunnersAndEvents();
   }, []);
+
+  const handleAssignEvent = async (runnerId: number) => {
+    if (!selectedEvent) {
+      alert('Please select an event.');
+      return;
+    }
+
+    try {
+      await assignRunnerToEvent(runnerId, selectedEvent);
+      alert('Runner assigned to event successfully.');
+    } catch (error) {
+      console.error('Error assigning runner to event:', error);
+    }
+  };
 
   return (
     <Container maxWidth="sm">
@@ -41,14 +62,33 @@ const RunnerList: React.FC = () => {
       >
         Add New Runner
       </Button>
+      <Select
+        value={selectedEvent || ''}
+        onChange={(e) => setSelectedEvent(Number(e.target.value))}
+        displayEmpty
+        fullWidth
+        sx={{ marginBottom: 2 }}
+      >
+        <MenuItem value="" disabled>
+          Select an Event
+        </MenuItem>
+        {events.map((event: RaceEvent) => (
+          <MenuItem key={event.id} value={event.id}>
+            {event.name} ({new Date(event.date).toLocaleDateString()})
+          </MenuItem>
+        ))}
+      </Select>
       <List>
         {runners.map((runner) => (
-          <ListItem
-            key={runner.id}
-            component={Link}
-            to={`/runners/${runner.id}`}
-          >
+          <ListItem key={runner.id}>
             <ListItemText primary={runner.name} />
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={() => handleAssignEvent(runner.id)}
+            >
+              Assign to Event
+            </Button>
           </ListItem>
         ))}
       </List>

@@ -21,6 +21,7 @@ export interface RaceEvent {
         distance: number;
         difficulty_level: string;
     };
+    runners: Runner[];
 }
 
 export interface Result {

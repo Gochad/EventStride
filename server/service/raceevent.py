@@ -65,3 +65,11 @@ class RaceEventService:
         event = Model.query.get_or_404(event_id)
         for runner in event.runners:
             Notifications.send_email_notification(message, runner)
+        
+    @staticmethod
+    def get_runners_for_event(event_id):
+        event = Model.query.get_or_404(event_id)
+        return [
+            {"id": runner.id, "name": runner.name, "age": runner.age, "category": runner.category}
+            for runner in event.runners
+        ]

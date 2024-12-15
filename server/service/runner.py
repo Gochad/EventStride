@@ -46,3 +46,4 @@ class RunnerService:
     def get_all_runners():
         models = Model.query.all()
         return [Runner.from_model(model) for model in models]
+
