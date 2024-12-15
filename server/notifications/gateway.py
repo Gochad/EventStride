@@ -1,47 +1,28 @@
 import smtplib
-from twilio.rest import Client
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+import os
 
-class NotificationGateway:
-    EMAIL_HOST = "smtp.gmail.com"
-    EMAIL_PORT = 587
-    EMAIL_USERNAME = "your_email@example.com"
-    EMAIL_PASSWORD = "your_email_password"
-
-    TWILIO_ACCOUNT_SID = "your_twilio_account_sid"
-    TWILIO_AUTH_TOKEN = "your_twilio_auth_token"
-    TWILIO_PHONE_NUMBER = "+1234567890"
+class Gateway:
+    EMAIL_HOST = os.getenv("EMAIL_HOST")
+    EMAIL_PORT = int(os.getenv("EMAIL_PORT", 587))
+    EMAIL_USERNAME = os.getenv("EMAIL_USERNAME")
+    EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
 
     @staticmethod
-    def send_email_notification(message, runner):
+    def send_email_notification(message, email):
         try:
             email_msg = MIMEMultipart()
-            email_msg["From"] = NotificationGateway.EMAIL_USERNAME
-            email_msg["To"] = runner.email
+            email_msg["From"] = Gateway.EMAIL_USERNAME
+            email_msg["To"] = email
             email_msg["Subject"] = "Notification"
             email_msg.attach(MIMEText(message, "plain"))
 
-            with smtplib.SMTP(NotificationGateway.EMAIL_HOST, NotificationGateway.EMAIL_PORT) as server:
+            with smtplib.SMTP(Gateway.EMAIL_HOST, Gateway.EMAIL_PORT) as server:
                 server.starttls()
-                server.login(NotificationGateway.EMAIL_USERNAME, NotificationGateway.EMAIL_PASSWORD)
+                server.login(Gateway.EMAIL_USERNAME, Gateway.EMAIL_PASSWORD)
                 server.send_message(email_msg)
 
-            print(f"Email sent to {runner.email}")
+            print(f"Email sent to {email}")
         except Exception as e:
-            print(f"Failed to send email to {runner.email}: {str(e)}")
-
-    @staticmethod
-    def send_sms_notification(message, runner):
-        try:
-            client = Client(NotificationGateway.TWILIO_ACCOUNT_SID, NotificationGateway.TWILIO_AUTH_TOKEN)
-
-            client.messages.create(
-                body=message,
-                from_=NotificationGateway.TWILIO_PHONE_NUMBER,
-                to=runner.phone
-            )
-
-            print(f"SMS sent to {runner.phone}")
-        except Exception as e:
-            print(f"Failed to send SMS to {runner.phone}: {str(e)}")
+            print(f"Failed to send email to {email}: {str(e)}")

@@ -1,6 +1,7 @@
 from app import db
 from models.runner import Runner as Model
 from domain.runner import Runner
+from notifications.gateway import Gateway as Notifications
 
 class RunnerService:
     @staticmethod
@@ -21,6 +22,9 @@ class RunnerService:
         )
         db.session.add(new_runner)
         db.session.commit()
+
+        Notifications.send_email_notification("new account", new_runner.email)
+
         return Runner.from_model(new_runner)
 
     @staticmethod
