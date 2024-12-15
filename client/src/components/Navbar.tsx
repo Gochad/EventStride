@@ -1,18 +1,16 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
 import axios from 'axios';
 
 const Navbar: React.FC = () => {
-  const navigate = useNavigate();
-
   const handleLogout = async () => {
     try {
-      await axios.get('http://localhost:5001/logout', { withCredentials: true });
+      await axios.get('http://localhost:5001/auth/logout', { withCredentials: true });
 
       localStorage.removeItem('authToken');
 
-      navigate('/login');
+      window.location.reload();
     } catch (error) {
       console.error('Error during logout:', error);
     }

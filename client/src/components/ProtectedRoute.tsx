@@ -10,7 +10,7 @@ const ProtectedRoute = ({ children }) => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const response = await axios.get("http://localhost:5001/login/user", {
+        const response = await axios.get("http://localhost:5001/auth/user", {
           withCredentials: true,
         });
         if (response.status === 200 && response.data.user) {
@@ -34,7 +34,7 @@ const ProtectedRoute = ({ children }) => {
   }
 
   if (!isAuthenticated) {
-    window.location.href = "http://localhost:5001/login/google";
+    window.location.href = "http://localhost:5001/auth/google";
     return null;
   }
 
