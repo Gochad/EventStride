@@ -4,6 +4,7 @@ from models.raceevent import RaceEvent as Model
 from models.models import Location, Track
 from domain.raceevent import RaceEvent
 from notifications.gateway import Gateway as Notifications
+from service.unitofwork import UnitOfWork
 
 class RaceEventService:
     @staticmethod
@@ -16,43 +17,42 @@ class RaceEventService:
     @staticmethod
     def create_race_event(data):
         try:
-            location_data = data['location']
-            location = Location.query.filter_by(
-                city=location_data['city'], country=location_data['country']
-            ).first()
+            with UnitOfWork(db.session) as uow:
+                location_data = data['location']
+                location = Location.query.filter_by(
+                    city=location_data['city'], country=location_data['country']
+                ).first()
 
-            if not location:
-                location = Location(city=location_data['city'], country=location_data['country'])
-                db.session.add(location)
+                if not location:
+                    location = Location(city=location_data['city'], country=location_data['country'])
+                    db.session.add(location)
 
-            track_data = data["track"]
-            track = Track.query.filter_by(
-                name=track_data['name'], distance=track_data['distance']
-            ).first()
+                track_data = data["track"]
+                track = Track.query.filter_by(
+                    name=track_data['name'], distance=track_data['distance']
+                ).first()
 
-            if not track:
-                track = Track(
-                    name=track_data['name'],
-                    distance=track_data['distance'],
-                    difficulty_level=track_data['difficulty_level'],
+                if not track:
+                    track = Track(
+                        name=track_data['name'],
+                        distance=track_data['distance'],
+                        difficulty_level=track_data['difficulty_level'],
+                    )
+                    db.session.add(track)
+
+                new_event = Model(
+                    name=data['name'],
+                    date=data['date'],
+                    distance=data['distance'],
+                    location=location,
+                    track=track,
+                    fee=data['fee'],
+                    max_participants=data['max_participants']
                 )
+                db.session.add(new_event)
 
-                db.session.add(track)
-
-            new_event = Model(
-                name=data['name'],
-                date=data['date'],
-                distance=data['distance'],
-                location=location,
-                track=track,
-                fee=data['fee'],
-                max_participants=data['max_participants']
-            )
-            db.session.add(new_event)
-            db.session.commit()
-            return new_event
+                return new_event
         except Exception as e:
-            db.session.rollback()
             raise e
         
     @staticmethod

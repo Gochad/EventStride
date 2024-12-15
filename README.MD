@@ -10,6 +10,26 @@ EventStride is an application designed to manage registrations of runners for ra
 # Run
 1. `docker-compose up --build`
 
+# Design patterns
+EventStride leverages several design patterns to create a scalable, maintainable, and user-friendly application. Below is a summary of the patterns currently implemented in the project:
+
+## 1. Model-View-Controller (MVC)
+- **Model:** Handles business logic and database interactions using Flask and SQLAlchemy.
+- **View:** The React-based frontend manages the presentation layer, allowing users to interact with the application.
+- **Controller:** Flask handles user requests, processes logic, and bridges the model and view layers.
+
+## 2. Active Record
+SQLAlchemy, an Object-Relational Mapping (ORM) library, is used to implement the Active Record pattern:
+- Each database table is mapped to a Python class.
+- Instances of these classes represent rows in the table.
+
+## 3. Repository Pattern
+- A dedicated data access layer is implemented, separating business logic from database-specific queries.
+- This abstraction improves code readability and makes the application easier to test and extend.
+
+## 4. Unit of Work
+- To manage nested addition - `server/service/unitofwork.py`
+
 ### How it works
 
 ```mermaid
