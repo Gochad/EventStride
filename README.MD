@@ -30,6 +30,15 @@ SQLAlchemy, an Object-Relational Mapping (ORM) library, is used to implement the
 ## 4. Unit of Work
 - To manage nested addition - `server/service/unitofwork.py`
 
+## 5. Data Mapper
+- To decouple model data from return data in api - `server/domain`
+
+## 6. Front Controller Pattern 
+blueprints in api routing
+
+## 7. Server Session State
+in-app session storage (flask-session)
+
 ### How it works
 
 ```mermaid
