@@ -7,6 +7,7 @@ class RaceEvent(db.Model):
     name = db.Column(db.String(100), nullable=False)
     date = db.Column(db.Date, nullable=False)
     distance = db.Column(db.Integer, nullable=False)
+    participants = db.Column(db.Integer, nullable=False)
 
     location_id = db.Column(db.Integer, db.ForeignKey('locations.id'), nullable=False)
     track_id = db.Column(db.Integer, db.ForeignKey('tracks.id'), nullable=False)

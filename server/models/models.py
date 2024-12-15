@@ -42,3 +42,11 @@ class Location(db.Model):
     country = db.Column(db.String(100), nullable=False)
 
     race_events = db.relationship('RaceEvent', back_populates='location')
+
+
+# class Payment(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     runner_id = db.Column(db.Integer, db.ForeignKey('runner.id'), nullable=False)
+#     event_id = db.Column(db.Integer, db.ForeignKey('race_event.id'), nullable=False)
+#     amount = db.Column(db.Float, nullable=False)
+#     status = db.Column(db.String(20), nullable=False)

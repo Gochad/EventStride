@@ -52,6 +52,20 @@ class RaceEventService:
         db.session.commit()
         return event
 
+
+        if event and len(event.participants) < event.max_participants:
+            payment = Payment(
+                runner_id=runner_id,
+                event_id=event_id,
+                amount=event.fee,
+                status="Pending"
+            )
+            db.session.add(payment)
+            db.session.commit()
+            return payment
+        else:
+            return {"error": "Event is full or doesn't exist"}
+
     @staticmethod
     def add_sponsor_to_event(event_id, sponsor):
         event = Model.query.get_or_404(event_id)

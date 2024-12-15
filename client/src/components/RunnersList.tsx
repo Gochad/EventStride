@@ -9,7 +9,8 @@ import {
   ListItem, 
   ListItemText, 
   Select, 
-  MenuItem 
+  MenuItem, 
+  Box 
 } from '@mui/material';
 import { fetchRunners, fetchEvents, assignRunnerToEvent } from '../services/api.tsx';
 
@@ -81,14 +82,18 @@ const RunnerList: React.FC = () => {
       <List>
         {runners.map((runner) => (
           <ListItem key={runner.id}>
-            <ListItemText primary={runner.name} />
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={() => handleAssignEvent(runner.id)}
-            >
-              Assign to Event
-            </Button>
+            <Box display="flex" justifyContent="space-between" alignItems="center" width="100%">
+              <Link to={`/runners/${runner.id}`} style={{ textDecoration: 'none', color: 'inherit', flexGrow: 1 }}>
+                <ListItemText primary={runner.name} />
+              </Link>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={() => handleAssignEvent(runner.id)}
+              >
+                Assign to Event
+              </Button>
+            </Box>
           </ListItem>
         ))}
       </List>
