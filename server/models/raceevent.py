@@ -7,6 +7,7 @@ class RaceEvent(db.Model):
     name = db.Column(db.String(100), nullable=False)
     date = db.Column(db.Date, nullable=False)
     distance = db.Column(db.Integer, nullable=False)
+    description = db.Column(db.Text, nullable=True)
 
     location_id = db.Column(db.Integer, db.ForeignKey('locations.id'))
     track_id = db.Column(db.Integer, db.ForeignKey('tracks.id'))
@@ -27,3 +28,7 @@ class RaceEvent(db.Model):
     def add_sponsor(self, sponsor):
         if sponsor not in self.sponsors:
             self.sponsors.append(sponsor)
+
+    def __repr__(self):
+        return f"<RaceEvent {self.name}>"
+

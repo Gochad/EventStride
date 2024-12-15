@@ -56,6 +56,24 @@ def delete_runner(runner_id):
     except Exception as e:
         return jsonify({'error': str(e)}), 400
 
+@api.route('/race_events', methods=['POST'])
+def create_race_event():
+    data = request.get_json()
+
+    try:
+        race_event = RaceEventService.create_race_event(data)
+        return jsonify({
+            'message': 'Race event created successfully',
+            'event_id': race_event.id,
+            'name': race_event.name,
+            'date': race_event.date,
+            'location': race_event.location,
+            'description': race_event.description
+        }), 201
+    except Exception as e:
+        print("Error during event creation:", str(e))
+        return jsonify({'error': str(e)}), 400
+
 @api.route('/race_events/<int:event_id>/register_runner', methods=['POST'])
 def register_runner_for_event(event_id):
     data = request.get_json()
