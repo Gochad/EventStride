@@ -19,7 +19,7 @@ logging.basicConfig(
 def create_app():
     load_dotenv()
     app = Flask(__name__)
-    app.secret_key = os.getenv("SECRET_KEY")
+    app.secret_key = os.getenv("SECRET_KEY",  "a-secure-random-key")
 
     app.config.from_object(Config)
     db.init_app(app)
