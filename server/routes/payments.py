@@ -8,22 +8,25 @@ def create_payment_link():
     success_url = data.get('success_url')
     cancel_url = data.get('cancel_url')
     amount = data.get('unit_amount')
+    runner_name = data.get('runner_name', 'Runner')
+    event_name = data.get('event_name', 'Race Event')
 
-    price = stripe.Price.create(
-        unit_amount=amount,
-        currency='pln',
-        product_data={
-            'name': 'Entry Fee for Race Event',
-        },
-    )
     try:
+        price = stripe.Price.create(
+            unit_amount=amount,
+            currency='pln',
+            product_data={
+                'name': f'Entry Fee for {event_name} - {runner_name}',
+            },
+        )
+
         payment_link = stripe.PaymentLink.create(
             line_items=[{
                 'price': price.id,
                 'quantity': 1,
             }],
-            success_url=success_url,
-            cancel_url=cancel_url,
+            # success_url=success_url,
+            # cancel_url=cancel_url,
         )
         return jsonify({'url': payment_link.url})
     except Exception as e:

@@ -3,10 +3,14 @@ import CONFIG from "../config.tsx";
 
 const API_URL = `${CONFIG.API_URL}/auth`;
 
+const api = axios.create({
+    baseURL: API_URL,
+});
+
 const AuthService = {
   checkAuth: async () => {
     try {
-      const response = await axios.get(`${API_URL}/user`, {
+      const response = await api.get('/user', {
         withCredentials: true,
       });
       return response.data;
@@ -22,7 +26,7 @@ const AuthService = {
 
   logout: async () => {
     try {
-      await axios.get(`${API_URL}/logout`, { withCredentials: true });
+      await api.get('/logout', { withCredentials: true });
       window.location.reload(); 
     } catch (error) {
       console.error("Error during logout:", error);
