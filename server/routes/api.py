@@ -77,6 +77,15 @@ def create_race_event():
         return jsonify({'error': str(e)}), 400
 
 
+@api.route('/race_events', methods=['GET'])
+def get_race_events():
+    try:
+        race_events = RaceEventService.get_all_race_events()
+        return jsonify(race_events), 200
+    except Exception as e:
+        print("Error fetching race events:", e)
+        return jsonify({'error': str(e)}), 500
+
 @api.route('/race_events/<int:event_id>/register_runner', methods=['POST'])
 def register_runner_for_event(event_id):
     data = request.get_json()

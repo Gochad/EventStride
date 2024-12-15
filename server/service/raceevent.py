@@ -37,6 +37,11 @@ class RaceEventService:
         except Exception as e:
             db.session.rollback()
             raise e
+        
+    @staticmethod
+    def get_all_race_events():
+        models = Model.query.all()
+        return [RaceEvent.from_model(model) for model in models]
 
     @staticmethod
     def add_runner_to_event(event_id, runner_id):

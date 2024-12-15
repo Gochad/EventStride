@@ -9,14 +9,26 @@ class RaceEvent:
 
     @staticmethod
     def from_model(model):
-        return RaceEvent(
-            id=model.id,
-            name=model.name,
-            date=model.date,
-            distance=model.distance,
-            location=model.location.id if model.location else None,
-            runners=[runner.id for runner in model.runners]
-        )
+        return {
+            "name": model.name,
+            "date": model.date.isoformat() if model.date else None,
+            "distance": model.distance,
+            "location": {
+                "id": model.location.id,
+                "city": model.location.city,
+                "country": model.location.country
+            } if model.location else None,
+            "runners": [
+                {
+                    "id": runner.id,
+                    "name": runner.name,
+                    "age": runner.age,
+                    "category": runner.category
+                }
+                for runner in model.runners
+            ] 
+        }
+
 
     def add_runner(self, runner):
         if runner.id not in self.runners:
