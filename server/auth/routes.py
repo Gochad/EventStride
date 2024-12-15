@@ -9,7 +9,7 @@ google_bp = make_google_blueprint(
     redirect_url="http://localhost:3000",
 )
 
-@google_bp.route("/login/google/authorized")
+@google_bp.route("/google/authorized")
 def google_login():
     try:
         if not google.authorized:
@@ -24,13 +24,10 @@ def google_login():
         return jsonify({"error": str(e)}), 500
 
 
-@google_bp.route("/login/user", methods=["GET"])
+@google_bp.route("/user", methods=["GET"])
 def get_user():
     if "user" in session:
         return jsonify({"user": session["user"]})
-    elif not google.authorized:
-        print("User not authorized in Google session")
-        return jsonify({"error": "User not authorized"}), 401
 
     resp = google.get("/oauth2/v2/userinfo")
     if not resp.ok:
