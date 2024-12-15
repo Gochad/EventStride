@@ -1,8 +1,23 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
+import axios from 'axios';
 
 const Navbar: React.FC = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await axios.get('http://localhost:5001/logout', { withCredentials: true });
+
+      localStorage.removeItem('authToken');
+
+      navigate('/login');
+    } catch (error) {
+      console.error('Error during logout:', error);
+    }
+  };
+
   return (
     <AppBar position="static">
       <Toolbar>
@@ -20,6 +35,9 @@ const Navbar: React.FC = () => {
           </Button>
           <Button color="inherit" component={Link} to="/race_events">
             Events
+          </Button>
+          <Button color="inherit" onClick={handleLogout}>
+            Logout
           </Button>
         </Box>
       </Toolbar>

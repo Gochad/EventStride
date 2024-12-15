@@ -1,4 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
+import axios from 'axios';
 
 interface AuthContextType {
   user: any;
@@ -19,11 +20,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const fetchUserData = async () => {
     try {
-      const response = await fetch('http://localhost:5001/login/user', {
-        credentials: 'include', 
-      });
-      if (response.ok) {
-        const userData = await response.json();
+      const response = await axios.get('http://localhost:5001/login/user');
+      if (response.status === 200) {
+        const userData = response.data;
         setUser(userData);
         setIsAuthenticated(true);
       } else {
