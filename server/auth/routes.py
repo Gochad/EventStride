@@ -6,17 +6,21 @@ import requests
 google_bp = make_google_blueprint(
     client_id=os.getenv("GOOGLE_CLIENT_ID"),
     client_secret=os.getenv("GOOGLE_CLIENT_SECRET"),
-    redirect_url="/login/google/authorized",
+    redirect_url="http://localhost:3000",
 )
 
 @google_bp.route("/login/google/authorized")
 def google_login():
-    if not google.authorized:
-        return redirect(url_for("google.login"))
-    resp = google.get("/oauth2/v2/userinfo")
-    assert resp.ok, resp.text
-    user_info = resp.json()
-    return jsonify(user_info)
+    try:
+        if not google.authorized:
+            return redirect(url_for("google.login"))
+        resp = google.get("/oauth2/v2/userinfo")
+        assert resp.ok, resp.text
+        user_info = resp.json()
+        return jsonify(user_info)
+    except Exception as e:
+        print("Error during Google login:", str(e))
+        return jsonify({"error": str(e)}), 500
 
 
 @google_bp.route("/login/user", methods=["GET"])
