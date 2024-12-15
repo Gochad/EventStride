@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, Navigate } from 'react-router-dom';
 import { ThemeProvider, CssBaseline } from '@mui/material';
 import theme from './theme.tsx';
 import Navbar from './components/Navbar.tsx';
@@ -12,24 +12,93 @@ import RaceEventForm from './components/RaceEventForm.tsx';
 import RaceEventResults from './components/RaceEventResults.tsx';
 import Login from './components/Login.tsx';
 import Home from './components/Home.tsx';
+import { AuthProvider, useAuth } from './context/Auth.tsx';
+
+const ProtectedRoute = ({ children }) => {
+  const { isAuthenticated } = useAuth();
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return <>{children}</>;
+};
 
 const App = () => {
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/runners" element={<RunnerList />} />
-        <Route path="/runners/new" element={<RunnerForm />} />
-        <Route path="/runners/:id" element={<RunnerDetail />} />
-        <Route path="/race_events" element={<RaceEventList />} />
-        <Route path="/race_events/new" element={<RaceEventForm />} />
-        <Route path="/race_events/:id/results" element={<RaceEventResults />} />
-        <Route path="/race_events/:id" element={<RaceEventDetail />} />
-      </Routes>
-    </ThemeProvider>
+    <AuthProvider>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Navbar />
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/runners"
+            element={
+              <ProtectedRoute>
+                <RunnerList />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/runners/new"
+            element={
+              <ProtectedRoute>
+                <RunnerForm />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/runners/:id"
+            element={
+              <ProtectedRoute>
+                <RunnerDetail />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/race_events"
+            element={
+              <ProtectedRoute>
+                <RaceEventList />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/race_events/new"
+            element={
+              <ProtectedRoute>
+                <RaceEventForm />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/race_events/:id/results"
+            element={
+              <ProtectedRoute>
+                <RaceEventResults />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/race_events/:id"
+            element={
+              <ProtectedRoute>
+                <RaceEventDetail />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </ThemeProvider>
+    </AuthProvider>
   );
 };
 
