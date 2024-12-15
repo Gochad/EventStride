@@ -9,7 +9,7 @@ import {
   ListItem, 
   ListItemText 
 } from '@mui/material';
-import { fetchRunners } from '../services/api';
+import { fetchRunners } from '../services/api.tsx';
 
 const RunnerList: React.FC = () => {
   const [runners, setRunners] = useState<Runner[]>([]);

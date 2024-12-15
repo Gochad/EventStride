@@ -1,26 +1,14 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
-import axios from 'axios';
+import React from "react";
+import { Link } from "react-router-dom";
+import { AppBar, Toolbar, Typography, Button, Box } from "@mui/material";
+import LogoutButton from "./LogoutButton.tsx";
 
 const Navbar: React.FC = () => {
-  const handleLogout = async () => {
-    try {
-      await axios.get('http://localhost:5001/auth/logout', { withCredentials: true });
-
-      localStorage.removeItem('authToken');
-
-      window.location.reload();
-    } catch (error) {
-      console.error('Error during logout:', error);
-    }
-  };
-
   return (
     <AppBar position="static">
       <Toolbar>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+          <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
             MainPage
           </Link>
         </Typography>
@@ -31,9 +19,7 @@ const Navbar: React.FC = () => {
           <Button color="inherit" component={Link} to="/race_events">
             Events
           </Button>
-          <Button color="inherit" onClick={handleLogout}>
-            Logout
-          </Button>
+          <LogoutButton />
         </Box>
       </Toolbar>
     </AppBar>

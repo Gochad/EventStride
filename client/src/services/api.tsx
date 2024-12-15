@@ -1,7 +1,8 @@
 import axios from 'axios';
+import CONFIG from '../config.tsx';
 
 const api = axios.create({
-    baseURL: 'http://localhost:5001/api',
+    baseURL: `${CONFIG.API_URL}/api`,
 });
 
 export const fetchRunners = async () => {

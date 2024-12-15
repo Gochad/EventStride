@@ -7,7 +7,7 @@ import {
   Typography, 
   Box 
 } from '@mui/material';
-import { createRunner } from '../services/api';
+import { createRunner } from '../services/api.tsx';
 
 const RunnerForm: React.FC = () => {
   const [name, setName] = useState('');

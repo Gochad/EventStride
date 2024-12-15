@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchRunnerById } from '../services/api';
+import { fetchRunnerById } from '../services/api.tsx';
 
 import { Runner } from '../types';
 import { useParams } from 'react-router-dom';

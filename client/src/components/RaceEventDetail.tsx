@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import api from '../services/api';
+import api from '../services/api.tsx';
 import { RaceEvent } from '../types';
 import { useParams } from 'react-router-dom';
 import { 

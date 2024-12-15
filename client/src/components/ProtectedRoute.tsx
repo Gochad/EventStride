@@ -1,25 +1,20 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import AuthService from "../services/auth.tsx";
 
 const ProtectedRoute = ({ children }) => {
   const [authChecked, setAuthChecked] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const response = await axios.get("http://localhost:5001/auth/user", {
-          withCredentials: true,
-        });
-        if (response.status === 200 && response.data.user) {
+        const userData = await AuthService.checkAuth();
+        if (userData && userData.user) {
           setIsAuthenticated(true);
         } else {
           setIsAuthenticated(false);
         }
       } catch (error) {
-        console.error("Authentication check failed:", error);
         setIsAuthenticated(false);
       } finally {
         setAuthChecked(true);
@@ -34,7 +29,7 @@ const ProtectedRoute = ({ children }) => {
   }
 
   if (!isAuthenticated) {
-    window.location.href = "http://localhost:5001/auth/google";
+    AuthService.redirectToLogin();
     return null;
   }
 
