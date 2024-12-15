@@ -11,10 +11,9 @@ import RaceEventList from './components/RaceEventList.tsx';
 import RaceEventDetail from './components/RaceEventDetail.tsx';
 import RaceEventForm from './components/RaceEventForm.tsx';
 import RaceEventResults from './components/RaceEventResults.tsx';
-import Login from './components/Login.tsx';
 import Home from './components/Home.tsx';
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
-import { AuthProvider, useAuth } from './context/Auth.tsx';
+import { AuthProvider } from './context/Auth.tsx';
 
 const App = () => {
   return (
@@ -23,7 +22,6 @@ const App = () => {
         <CssBaseline />
         <Navbar />
         <Routes>
-          <Route path="/login" element={<Login />} />
           <Route
             path="/"
             element={
