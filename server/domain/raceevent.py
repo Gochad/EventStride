@@ -14,6 +14,8 @@ class RaceEvent:
             "name": model.name,
             "date": model.date.isoformat() if model.date else None,
             "distance": model.distance,
+            "max_participants": model.max_participants,
+            "fee": model.fee,
             "location": {
                 "id": model.location.id,
                 "city": model.location.city,

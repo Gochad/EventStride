@@ -20,6 +20,8 @@ const RaceEventForm: React.FC = () => {
   const [trackName, setTrackName] = useState('');
   const [trackDistance, setTrackDistance] = useState<number | ''>('');
   const [difficultyLevel, setDifficultyLevel] = useState('');
+  const [fee, setFee] = useState<number | ''>('');
+  const [maxParticipants, setMaxParticipants] = useState<number | ''>('');  
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
@@ -32,6 +34,8 @@ const RaceEventForm: React.FC = () => {
         name,
         date,
         distance,
+        fee,
+        max_participants: maxParticipants,
         location: {
           city,
           country,
@@ -41,7 +45,7 @@ const RaceEventForm: React.FC = () => {
           distance: trackDistance,
           difficulty_level: difficultyLevel,
         },
-      });
+      });      
       navigate('/race_events');
     } catch (err: any) {
       console.error(err);
@@ -158,7 +162,28 @@ const RaceEventForm: React.FC = () => {
             required
           />
         </Box>
-
+        <Box mb={2}>
+          <TextField
+            label="Fee (PLN)"
+            type="number"
+            variant="outlined"
+            fullWidth
+            value={fee}
+            onChange={(e) => setFee(e.target.value !== '' ? Number(e.target.value) : '')}
+            required
+          />
+        </Box>
+        <Box mb={2}>
+          <TextField
+            label="Max Participants"
+            type="number"
+            variant="outlined"
+            fullWidth
+            value={maxParticipants}
+            onChange={(e) => setMaxParticipants(e.target.value !== '' ? Number(e.target.value) : '')}
+            required
+          />
+        </Box>
         <Button type="submit" variant="contained" color="primary" fullWidth>
           Add Event
         </Button>

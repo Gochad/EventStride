@@ -1,7 +1,7 @@
 from app import db
 from models.runner import Runner
 from models.raceevent import RaceEvent as Model
-from models.models import Location
+from models.models import Location, Track
 from domain.raceevent import RaceEvent
 from notifications.gateway import Gateway as Notifications
 
@@ -25,11 +25,28 @@ class RaceEventService:
                 location = Location(city=location_data['city'], country=location_data['country'])
                 db.session.add(location)
 
+            track_data = data["track"]
+            track = Track.query.filter_by(
+                name=track_data['name'], distance=track_data['distance']
+            ).first()
+
+            if not track:
+                track = Track(
+                    name=track_data['name'],
+                    distance=track_data['distance'],
+                    difficulty_level=track_data['difficulty_level'],
+                )
+
+                db.session.add(track)
+
             new_event = Model(
                 name=data['name'],
                 date=data['date'],
                 distance=data['distance'],
                 location=location,
+                track=track,
+                fee=data['fee'],
+                max_participants=data['max_participants']
             )
             db.session.add(new_event)
             db.session.commit()
