@@ -12,8 +12,6 @@ def health():
 def create_runner():
     data = request.get_json()
 
-    print("data: ", data)
-
     try:
         runner = RunnerService.create_runner(data)
         return jsonify({'message': 'Runner created successfully', 'runner_id': runner.id}), 201
@@ -37,6 +35,23 @@ def get_runners():
 
         return jsonify(runners_data), 200
     except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@api.route('/runners/<int:runner_id>', methods=['GET'])
+def get_runner_by_id(runner_id):
+    try:
+        runner = RunnerService.get_runner_by_id(runner_id)
+        if not runner:
+            return jsonify({'error': f'Runner with ID {runner_id} not found'}), 404
+        
+        return jsonify({
+            'id': runner.id,
+            'name': runner.name,
+            'age': runner.age,
+            'category': runner.category
+        }), 200
+    except Exception as e:
+        print(f"Error fetching runner with ID {runner_id}:", e)
         return jsonify({'error': str(e)}), 500
 
 @api.route('/runners/<int:runner_id>', methods=['PUT'])
@@ -85,6 +100,19 @@ def get_race_events():
     except Exception as e:
         print("Error fetching race events:", e)
         return jsonify({'error': str(e)}), 500
+    
+@api.route('/race_events/<int:event_id>', methods=['GET'])
+def get_race_event_by_id(event_id):
+    try:
+        race_event = RaceEventService.get_event_by_id(event_id)
+        if not race_event:
+            return jsonify({'error': f'Race event with ID {event_id} not found'}), 404
+
+        return race_event, 200
+    except Exception as e:
+        print(f"Error fetching race event with ID {event_id}:", e)
+        return jsonify({'error': str(e)}), 500
+
 
 @api.route('/race_events/<int:event_id>/register_runner', methods=['POST'])
 def register_runner_for_event(event_id):

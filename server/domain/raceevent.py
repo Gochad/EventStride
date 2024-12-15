@@ -10,6 +10,7 @@ class RaceEvent:
     @staticmethod
     def from_model(model):
         return {
+            "id": model.id,
             "name": model.name,
             "date": model.date.isoformat() if model.date else None,
             "distance": model.distance,
