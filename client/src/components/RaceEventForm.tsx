@@ -7,7 +7,8 @@ import {
   TextField, 
   Button, 
   Box, 
-  Divider 
+  Divider, 
+  Alert 
 } from '@mui/material';
 
 const RaceEventForm: React.FC = () => {
@@ -19,10 +20,13 @@ const RaceEventForm: React.FC = () => {
   const [trackName, setTrackName] = useState('');
   const [trackDistance, setTrackDistance] = useState<number | ''>('');
   const [difficultyLevel, setDifficultyLevel] = useState('');
+  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
+
     try {
       await api.post('/race_events', {
         name,
@@ -39,8 +43,9 @@ const RaceEventForm: React.FC = () => {
         },
       });
       navigate('/race_events');
-    } catch (error) {
-      console.error(error);
+    } catch (err: any) {
+      console.error(err);
+      setError('Failed to create the event. Please try again.');
     }
   };
 
@@ -49,6 +54,11 @@ const RaceEventForm: React.FC = () => {
       <Typography variant="h4" gutterBottom>
         Add New Running Event
       </Typography>
+      {error && (
+        <Alert severity="error" sx={{ mb: 2 }}>
+          {error}
+        </Alert>
+      )}
       <form onSubmit={handleSubmit}>
         <Box mb={2}>
           <TextField

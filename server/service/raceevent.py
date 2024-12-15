@@ -1,6 +1,7 @@
 from app import db
 from models.runner import Runner
 from models.raceevent import RaceEvent as Model
+from models.models import Location
 from domain.raceevent import RaceEvent
 from notifications.gateway import Gateway as Notifications
 
@@ -14,16 +15,28 @@ class RaceEventService:
 
     @staticmethod
     def create_race_event(data):
-        new_event = Model(
-            name=data['name'],
-            date=data['date'],
-            distance=data['distance'],
-            location=data['location'],
-            track=data['track']
-        )
-        db.session.add(new_event)
-        db.session.commit()
-        return RaceEvent.from_model(new_event)
+        try:
+            location_data = data['location']
+            location = Location.query.filter_by(
+                city=location_data['city'], country=location_data['country']
+            ).first()
+
+            if not location:
+                location = Location(city=location_data['city'], country=location_data['country'])
+                db.session.add(location)
+
+            new_event = Model(
+                name=data['name'],
+                date=data['date'],
+                distance=data['distance'],
+                location=location,
+            )
+            db.session.add(new_event)
+            db.session.commit()
+            return new_event
+        except Exception as e:
+            db.session.rollback()
+            raise e
 
     @staticmethod
     def add_runner_to_event(event_id, runner_id):

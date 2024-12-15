@@ -66,13 +66,16 @@ def create_race_event():
             'message': 'Race event created successfully',
             'event_id': race_event.id,
             'name': race_event.name,
-            'date': race_event.date,
-            'location': race_event.location,
-            'description': race_event.description
+            'date': race_event.date.isoformat(),
+            'location': race_event.location if isinstance(race_event.location, str) else {
+                'city': race_event.location.city,
+                'country': race_event.location.country
+            },
         }), 201
     except Exception as e:
-        print("Error during event creation:", str(e))
+        print("Error during event creation:", e)
         return jsonify({'error': str(e)}), 400
+
 
 @api.route('/race_events/<int:event_id>/register_runner', methods=['POST'])
 def register_runner_for_event(event_id):
