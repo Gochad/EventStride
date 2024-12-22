@@ -5,6 +5,7 @@ export interface Runner {
     number: string,
     email: string;
     category: string;
+    events: RaceEvent[];
 }
   
 export interface RaceEvent {

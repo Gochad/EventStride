@@ -77,7 +77,8 @@ def get_runner_by_id(runner_id):
             'id': runner.id,
             'name': runner.name,
             'age': runner.age,
-            'category': runner.category
+            'category': runner.category,
+            "events": runner.events,
         }), 200
     except Exception as e:
         print(f"Error fetching runner with ID {runner_id}:", e)

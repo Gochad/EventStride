@@ -5,7 +5,7 @@ import LogoutButton from "./LogoutButton.tsx";
 import { useUser } from "../context/User.tsx";
 
 const Navbar: React.FC = () => {
-  const { isAdmin } = useUser();
+  const { isAdmin, userId } = useUser();
 
   return (
     <AppBar position="static">
@@ -16,9 +16,12 @@ const Navbar: React.FC = () => {
           </Link>
         </Typography>
 
-        <Button color="inherit" component={Link} to="/runners/profile">
-          Profile
-        </Button>
+        {userId && (
+          <Button color="inherit" component={Link} to="/runners/profile">
+            Profile
+          </Button>
+          )
+        }
 
         <Box>
           <Button color="inherit" component={Link} to="/runners/login">

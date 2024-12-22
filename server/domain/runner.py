@@ -9,7 +9,7 @@ class Runner:
         self.events = events or []
 
     @staticmethod
-    def from_model(model):
+    def from_model(model):        
         return Runner(
             id = model.id,
             name = model.name,
@@ -17,7 +17,7 @@ class Runner:
             email = model.email,
             number = model.number,
             category = model.category,
-            #events = [event.id for event in model.events]
+            events = model.events
         )
 
     def register_for_race(self, race_event):

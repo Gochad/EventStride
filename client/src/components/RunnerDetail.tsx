@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { fetchRunnerById } from "../services/api.tsx";
-import { Runner } from "../types";
-import { Container, Typography, Paper, Box, CircularProgress } from "@mui/material";
+import { Runner, RaceEvent } from "../types";
+import { Container, Typography, Paper, Box, CircularProgress, List, ListItem, ListItemText } from "@mui/material";
 import { useUser } from "../context/User.tsx";
 
 const RunnerDetail: React.FC = () => {
@@ -13,11 +13,11 @@ const RunnerDetail: React.FC = () => {
     const loadRunner = async () => {
       try {
         if (userId) {
-          const data = await fetchRunnerById(userId);
-          setRunner(data);
+          const runnerData = await fetchRunnerById(userId);
+          setRunner(runnerData);
         }
       } catch (error) {
-        console.error("Error loading runner:", error);
+        console.error("Error loading runner or events:", error);
       } finally {
         setLoading(false);
       }
@@ -61,6 +61,21 @@ const RunnerDetail: React.FC = () => {
           <Typography variant="body1">{runner.category}</Typography>
         </Box>
       </Paper>
+
+      <Typography variant="h5" gutterBottom sx={{ mt: 4 }}>
+        Assigned Events
+      </Typography>
+      {runner.events.length > 0 ? (
+        <List>
+          {runner.events.map((event) => (
+            <ListItem key={event.id}>
+              <ListItemText primary={event.name} secondary={new Date(event.date).toLocaleDateString()} />
+            </ListItem>
+          ))}
+        </List>
+      ) : (
+        <Typography variant="body1">No events assigned.</Typography>
+      )}
     </Container>
   );
 };
