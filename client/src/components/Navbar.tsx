@@ -20,7 +20,6 @@ const Navbar: React.FC = () => {
           Profile
         </Button>
 
-
         <Box>
           <Button color="inherit" component={Link} to="/runners/login">
             Login
@@ -30,17 +29,19 @@ const Navbar: React.FC = () => {
           </Button>
         </Box>
 
-        <Box>
-          <Button color="inherit" component={Link} to="/runners">
-            Runners
-          </Button>
-          {userRole === "admin" && (
+        {userRole === "admin" && (
+          <Box>
+            <Button color="inherit" component={Link} to="/runners">
+              Runners
+            </Button>
+          
             <Button color="inherit" component={Link} to="/race_events">
               Events
             </Button>
-          )}
-          <LogoutButton />
-        </Box>
+          </Box>
+        )}
+        <LogoutButton />
+       
       </Toolbar>
     </AppBar>
   );

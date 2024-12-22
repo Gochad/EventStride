@@ -1,11 +1,13 @@
 import React from "react";
 import { Button } from "@mui/material";
-import AuthService from "../services/auth.tsx";
 
 const LogoutButton: React.FC = () => {
   const handleLogout = async () => {
     try {
-      await AuthService.logout();
+      localStorage.removeItem("user_role");
+      localStorage.removeItem("runner_token");
+
+      window.location.href = "/runners/login";
     } catch (error) {
       console.error("Logout failed:", error);
     }
