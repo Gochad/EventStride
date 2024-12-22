@@ -12,7 +12,6 @@ import RaceEventResults from './components/RaceEventResults.tsx';
 import RunnerRegisterForm from './components/RunnerRegistration.tsx';
 import RunnerLoginForm from './components/RunnerLoginForm.tsx';
 import Home from './components/Home.tsx';
-import ProtectedRoute from "./components/ProtectedRoute.tsx";
 
 
 const App = () => {
@@ -24,57 +23,43 @@ const App = () => {
         <Route
           path="/"
           element={
-            <ProtectedRoute>
-              <Home />
-            </ProtectedRoute>
+          <Home />
           }
         />
         <Route
           path="/runners"
           element={
-            <ProtectedRoute>
-              <RunnerList />
-            </ProtectedRoute>
+          <RunnerList />
           }
         />
         <Route
           path="/runners/:id"
           element={
-            <ProtectedRoute>
-              <RunnerDetail />
-            </ProtectedRoute>
+            <RunnerDetail />
           }
         />
         <Route
           path="/race_events"
           element={
-            <ProtectedRoute>
-              <RaceEventList />
-            </ProtectedRoute>
+            <RaceEventList />
           }
         />
         <Route
           path="/race_events/new"
           element={
-            <ProtectedRoute>
-              <RaceEventForm />
-            </ProtectedRoute>
+            <RaceEventForm />
           }
         />
         <Route
           path="/race_events/:id/results"
           element={
-            <ProtectedRoute>
-              <RaceEventResults />
-            </ProtectedRoute>
+            <RaceEventResults />
           }
         />
         <Route
           path="/race_events/:id"
           element={
-            <ProtectedRoute>
-              <RaceEventDetail />
-            </ProtectedRoute>
+            <RaceEventDetail />
           }
         />
         <Route path="/runners/register" element={<RunnerRegisterForm />} />
