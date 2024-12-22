@@ -68,6 +68,11 @@ class RunnerService:
         runner = Model.query.filter_by(email=email).first()
         if not runner or not check_password_hash(runner.password_hash, password):
             raise ValueError("Invalid email or password")
+        
+        if runner.is_admin:
+            role = 'admin'
+        else:
+            role = 'runner'
 
-        access_token = create_access_token(identity={'id': runner.id, 'email': runner.email, 'role': 'runner'})
+        access_token = create_access_token(identity={'id': runner.id, 'email': runner.email, 'role': role})
         return access_token

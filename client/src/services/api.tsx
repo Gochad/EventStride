@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
 import CONFIG from '../config.tsx';
 
 const api = axios.create({
@@ -28,7 +29,16 @@ export const createRunner = async (runnerData) => {
 export const loginRunner = async (data) => {
   try {
       const response = await api.post('/runners/login', data);
-      localStorage.setItem('runner_token', response.data.access_token);
+      const token = response.data.access_token;
+      localStorage.setItem('runner_token', token);
+      let decodedToken = jwtDecode(token);
+      if (decodedToken.sub) {
+        localStorage.setItem('user_role', decodedToken.sub["role"]);
+        const event = new Event("localStorageUpdate");
+        window.dispatchEvent(event);
+      } else {
+        console.error('Decoded token does not contain sub property');
+      }
   } catch (error) {
       console.error('Error login runner:', error.response || error.message);
       throw error;
