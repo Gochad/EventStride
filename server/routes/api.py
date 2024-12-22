@@ -73,12 +73,21 @@ def get_runner_by_id(runner_id):
         if not runner:
             return jsonify({'error': f'Runner with ID {runner_id} not found'}), 404
         
+        events = [
+            {
+                'id': event.id,
+                'name': event.name,
+                'date': event.date.isoformat(),
+            }
+            for event in runner.events
+        ]
+        
         return jsonify({
             'id': runner.id,
             'name': runner.name,
             'age': runner.age,
             'category': runner.category,
-            "events": runner.events,
+            "events": events,
         }), 200
     except Exception as e:
         print(f"Error fetching runner with ID {runner_id}:", e)
