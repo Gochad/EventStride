@@ -10,7 +10,6 @@ from flask_jwt_extended import JWTManager
 from app.database import db, create_database
 from routes.api import api
 from app.config import Config
-from auth.routes import google_bp
 from routes.payments import checkout_bp
 
 logging.basicConfig(
@@ -31,7 +30,6 @@ def create_app():
 
     CORS(app, resources={r"/*": {"origins": "http://localhost:3000", "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"]}}, supports_credentials=True)
     app.register_blueprint(api, url_prefix='/api')
-    app.register_blueprint(google_bp, url_prefix="/auth")
     app.register_blueprint(checkout_bp, url_prefix='/checkout')
 
     jwt = JWTManager(app)
