@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { fetchRunnerById } from "../services/api.tsx";
-import { Runner, RaceEvent } from "../types";
+import { Runner } from "../types";
 import { Container, Typography, Paper, Box, CircularProgress, List, ListItem, ListItemText } from "@mui/material";
 import { useUser } from "../context/User.tsx";
 

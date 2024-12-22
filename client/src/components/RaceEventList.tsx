@@ -13,6 +13,7 @@ import {
   Divider,
   Box,
 } from "@mui/material";
+import { assignRunnerToEvent } from '../services/api.tsx';
 import { createPaymentLink } from '../services/payments.tsx';
 
 const RaceEventList: React.FC = () => {
@@ -44,6 +45,8 @@ const RaceEventList: React.FC = () => {
       alert('Invalid event selected.');
       return;
     }
+
+    // await assignRunnerToEvent(Number(userId), eventId);
 
     try {
       const paymentData = {

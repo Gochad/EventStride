@@ -25,8 +25,12 @@ def create_payment_link():
                 'price': price.id,
                 'quantity': 1,
             }],
-            # success_url=success_url,
-            # cancel_url=cancel_url,
+            # after_completion={
+            #     'type': 'redirect',
+            #     'redirect': {
+            #         'url': success_url,
+            #     },
+            # }
         )
         return jsonify({'url': payment_link.url})
     except Exception as e:
