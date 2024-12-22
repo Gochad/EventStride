@@ -46,7 +46,7 @@ const RaceEventList: React.FC = () => {
       return;
     }
 
-    // await assignRunnerToEvent(Number(userId), eventId);
+    await assignRunnerToEvent(Number(userId), eventId);
 
     try {
       const paymentData = {
