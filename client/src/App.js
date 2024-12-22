@@ -13,59 +13,63 @@ import RunnerRegisterForm from './components/RunnerRegistration.tsx';
 import RunnerLoginForm from './components/RunnerLoginForm.tsx';
 import Home from './components/Home.tsx';
 
+import { UserProvider } from "./context/User.tsx";
+
 
 const App = () => {
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Navbar />
-      <Routes>
-        <Route
-          path="/"
-          element={
-          <Home />
-          }
-        />
-        <Route
-          path="/runners"
-          element={
-          <RunnerList />
-          }
-        />
-        <Route
-          path="/runners/:id"
-          element={
-            <RunnerDetail />
-          }
-        />
-        <Route
-          path="/race_events"
-          element={
-            <RaceEventList />
-          }
-        />
-        <Route
-          path="/race_events/new"
-          element={
-            <RaceEventForm />
-          }
-        />
-        <Route
-          path="/race_events/:id/results"
-          element={
-            <RaceEventResults />
-          }
-        />
-        <Route
-          path="/race_events/:id"
-          element={
-            <RaceEventDetail />
-          }
-        />
-        <Route path="/runners/register" element={<RunnerRegisterForm />} />
-        <Route path="/runners/login" element={<RunnerLoginForm />} />
-      </Routes>
-    </ThemeProvider>
+    <UserProvider>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Navbar />
+        <Routes>
+          <Route
+            path="/"
+            element={
+            <Home />
+            }
+          />
+          <Route
+            path="/runners"
+            element={
+            <RunnerList />
+            }
+          />
+          <Route
+            path="/runners/profile"
+            element={
+              <RunnerDetail />
+            }
+          />
+          <Route
+            path="/race_events"
+            element={
+              <RaceEventList />
+            }
+          />
+          <Route
+            path="/race_events/new"
+            element={
+              <RaceEventForm />
+            }
+          />
+          <Route
+            path="/race_events/:id/results"
+            element={
+              <RaceEventResults />
+            }
+          />
+          <Route
+            path="/race_events/:id"
+            element={
+              <RaceEventDetail />
+            }
+          />
+          <Route path="/runners/register" element={<RunnerRegisterForm />} />
+          <Route path="/runners/login" element={<RunnerLoginForm />} />
+        </Routes>
+      </ThemeProvider>
+    </UserProvider>  
   );
 };
 

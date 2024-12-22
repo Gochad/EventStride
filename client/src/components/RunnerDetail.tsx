@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { fetchRunnerById } from '../services/api.tsx';
 
 import { Runner } from '../types';
-import { useParams } from 'react-router-dom';
 import { Container, Typography, Paper, Box, CircularProgress } from '@mui/material';
 
 const RunnerDetail: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
+  const id = localStorage.getItem('user_id');
   const [runner, setRunner] = useState<Runner | null>(null);
   const [loading, setLoading] = useState(true);
 

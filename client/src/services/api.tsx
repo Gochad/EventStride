@@ -34,6 +34,8 @@ export const loginRunner = async (data) => {
       let decodedToken = jwtDecode(token);
       if (decodedToken.sub) {
         localStorage.setItem('user_role', decodedToken.sub["role"]);
+        localStorage.setItem('user_id', decodedToken.sub["id"]);
+        
         const event = new Event("localStorageUpdate");
         window.dispatchEvent(event);
       } else {
