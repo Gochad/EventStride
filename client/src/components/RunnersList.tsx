@@ -12,7 +12,7 @@ import {
   MenuItem, 
   Box 
 } from '@mui/material';
-import { fetchRunners, fetchEvents } from '../services/api.tsx';
+import { fetchRunners, fetchEvents, makeAdmin } from '../services/api.tsx';
 import { createPaymentLink } from '../services/payments.tsx';
 
 const RunnerList: React.FC = () => {
@@ -90,6 +90,13 @@ const RunnerList: React.FC = () => {
                   onClick={() => setSelectedRunner(runner.id === selectedRunner ? null : runner.id)}
                 >
                   {selectedRunner === runner.id ? 'Cancel' : 'Assign to Event'}
+                </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => makeAdmin(runner.id)}
+                >
+                  Make Admin
                 </Button>
               </Box>
               {selectedRunner === runner.id && (

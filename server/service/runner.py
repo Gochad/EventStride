@@ -38,6 +38,12 @@ class RunnerService:
         return Runner.from_model(new_runner)
 
     @staticmethod
+    def make_admin(runner_id):
+        runner = Model.query.get_or_404(runner_id)
+        runner.is_admin = True
+        db.session.commit()
+
+    @staticmethod
     def update_runner(runner_id, data):
         runner = Model.query.get_or_404(runner_id)
         runner.name = data.get('name', runner.name)

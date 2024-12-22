@@ -10,6 +10,7 @@ class Runner(db.Model):
     number = db.Column(db.String(15), unique=True, nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
     password_hash = db.Column(db.String(255), nullable=False)
+    is_admin = db.Column(db.Boolean, default=False)
 
     events = db.relationship('RaceEvent', secondary=registrations, back_populates='runners')
     results = db.relationship('Result', back_populates='runner')

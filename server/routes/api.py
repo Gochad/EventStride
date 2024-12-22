@@ -37,6 +37,17 @@ def login_runner():
         print("Error during login:", str(e))
         return jsonify({'error': 'An unexpected error occurred'}), 500
     
+@api.route('/runners/<int:runner_id>/make_admin', methods=['POST'])
+def make_admin(runner_id):
+    print("runner_id ", runner_id)
+
+    try:
+        RunnerService.make_admin(runner_id)
+        return jsonify({'message': 'Runner was made admin'}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+
+    
 @api.route('/runners', methods=['GET'])
 def get_runners():
     try:

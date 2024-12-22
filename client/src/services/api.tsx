@@ -35,6 +35,18 @@ export const loginRunner = async (data) => {
   }
 };
 
+export const makeAdmin = async (runnerId: number) => {
+  try {
+    const response = await api.post(`/runners/${runnerId}/make_admin`);
+    if (response.status !== 200) {
+      alert('Failed to make runner an admin.');
+    }
+  } catch (error) {
+    console.error('Error making runner admin:', error);
+    alert('An error occurred. Please try again.');
+  }
+};
+
 export const fetchRunnerById = async (id) => {
   try {
     const response = await api.get(`/runners/${id}`);
