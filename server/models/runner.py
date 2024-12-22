@@ -9,6 +9,7 @@ class Runner(db.Model):
     category = db.Column(db.String(50), nullable=False)
     number = db.Column(db.String(15), unique=True, nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
+    password_hash = db.Column(db.String(255), nullable=False)
 
     events = db.relationship('RaceEvent', secondary=registrations, back_populates='runners')
     results = db.relationship('Result', back_populates='runner')

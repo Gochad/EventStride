@@ -76,15 +76,6 @@ const RunnerList: React.FC = () => {
       <Typography variant="h4" gutterBottom>
         Runner List
       </Typography>
-      <Button
-        variant="contained"
-        color="primary"
-        component={Link}
-        to="/runners/new"
-        sx={{ marginBottom: 2 }}
-      >
-        Add New Runner
-      </Button>
       <List>
         {runners.map((runner) => (
           <ListItem key={runner.id}>

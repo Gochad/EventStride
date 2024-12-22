@@ -1,3 +1,6 @@
+from werkzeug.security import check_password_hash, generate_password_hash
+from flask_jwt_extended import create_access_token
+
 from app import db
 from models.runner import Runner as Model
 from domain.runner import Runner
@@ -13,13 +16,20 @@ class RunnerService:
 
     @staticmethod
     def create_runner(data):
+        if Model.query.filter_by(email=data["email"]).first():
+            raise ValueError("Email already registered")
+        
+        password_hash = generate_password_hash(data["password"])
+
         new_runner = Model(
             name=data['name'],
             age=data['age'],
             number=data['number'],
             email=data['email'],
-            category=data['category']
+            category=data['category'],
+            password_hash=password_hash
         )
+        
         db.session.add(new_runner)
         db.session.commit()
 
@@ -46,4 +56,12 @@ class RunnerService:
     def get_all_runners():
         models = Model.query.all()
         return [Runner.from_model(model) for model in models]
+    
+    @staticmethod
+    def login_runner(email, password):
+        runner = Model.query.filter_by(email=email).first()
+        if not runner or not check_password_hash(runner.password_hash, password):
+            raise ValueError("Invalid email or password")
 
+        access_token = create_access_token(identity={'id': runner.id, 'email': runner.email, 'role': 'runner'})
+        return access_token

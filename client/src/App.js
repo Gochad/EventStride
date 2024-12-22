@@ -5,13 +5,15 @@ import theme from './theme.tsx';
 import Navbar from './components/Navbar.tsx';
 import RunnerList from './components/RunnersList.tsx';
 import RunnerDetail from './components/RunnerDetail.tsx';
-import RunnerForm from './components/RunnerForm.tsx';
 import RaceEventList from './components/RaceEventList.tsx';
 import RaceEventDetail from './components/RaceEventDetail.tsx';
 import RaceEventForm from './components/RaceEventForm.tsx';
 import RaceEventResults from './components/RaceEventResults.tsx';
+import RunnerRegisterForm from './components/RunnerRegistration.tsx';
+import RunnerLoginForm from './components/RunnerLoginForm.tsx';
 import Home from './components/Home.tsx';
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
+
 
 const App = () => {
   return (
@@ -32,14 +34,6 @@ const App = () => {
           element={
             <ProtectedRoute>
               <RunnerList />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/runners/new"
-          element={
-            <ProtectedRoute>
-              <RunnerForm />
             </ProtectedRoute>
           }
         />
@@ -83,6 +77,8 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+        <Route path="/runners/register" element={<RunnerRegisterForm />} />
+        <Route path="/runners/login" element={<RunnerLoginForm />} />
       </Routes>
     </ThemeProvider>
   );

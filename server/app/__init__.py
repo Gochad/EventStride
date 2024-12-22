@@ -5,6 +5,7 @@ import sys
 import os
 import stripe
 from dotenv import load_dotenv
+from flask_jwt_extended import JWTManager
 
 from app.database import db, create_database
 from routes.api import api
@@ -32,6 +33,8 @@ def create_app():
     app.register_blueprint(api, url_prefix='/api')
     app.register_blueprint(google_bp, url_prefix="/auth")
     app.register_blueprint(checkout_bp, url_prefix='/checkout')
+
+    jwt = JWTManager(app)
     
     create_database(app)
     

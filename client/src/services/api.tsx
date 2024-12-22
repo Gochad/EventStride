@@ -25,6 +25,16 @@ export const createRunner = async (runnerData) => {
     }
 };
 
+export const loginRunner = async (data) => {
+  try {
+      const response = await api.post('/runners/login', data);
+      localStorage.setItem('runner_token', response.data.access_token);
+  } catch (error) {
+      console.error('Error login runner:', error.response || error.message);
+      throw error;
+  }
+};
+
 export const fetchRunnerById = async (id) => {
   try {
     const response = await api.get(`/runners/${id}`);

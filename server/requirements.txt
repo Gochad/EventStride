@@ -14,4 +14,4 @@ twilio==9.3.6
 Flask-Dance==7.1.0
 python-dotenv==1.0.1
 stripe==11.2.0
-
+Flask-JWT-Extended==4.7.1

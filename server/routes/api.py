@@ -19,6 +19,24 @@ def create_runner():
         print("Error during commit:", str(e))
         return jsonify({'error': str(e)}), 400
     
+@api.route('/runners/login', methods=['POST'])
+def login_runner():
+    data = request.get_json()
+    email = data.get('email')
+    password = data.get('password')
+
+    if not email or not password:
+        return jsonify({'error': 'Email and password are required'}), 400
+
+    try:
+        token = RunnerService.login_runner(email, password)
+        return jsonify({'access_token': token}), 200
+    except ValueError as e:
+        return jsonify({'error': str(e)}), 401
+    except Exception as e:
+        print("Error during login:", str(e))
+        return jsonify({'error': 'An unexpected error occurred'}), 500
+    
 @api.route('/runners', methods=['GET'])
 def get_runners():
     try:
