@@ -22,7 +22,6 @@ def create_app():
     load_dotenv()
     app = Flask(__name__)
     app.secret_key = os.getenv("SECRET_KEY",  "a-secure-random-key")
-
     stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
 
     app.config.from_object(Config)

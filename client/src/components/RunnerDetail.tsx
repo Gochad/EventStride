@@ -1,30 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import { fetchRunnerById } from '../services/api.tsx';
-
-import { Runner } from '../types';
-import { Container, Typography, Paper, Box, CircularProgress } from '@mui/material';
+import React, { useState, useEffect } from "react";
+import { fetchRunnerById } from "../services/api.tsx";
+import { Runner } from "../types";
+import { Container, Typography, Paper, Box, CircularProgress } from "@mui/material";
+import { useUser } from "../context/User.tsx";
 
 const RunnerDetail: React.FC = () => {
-  const id = localStorage.getItem('user_id');
+  const { userId } = useUser();
   const [runner, setRunner] = useState<Runner | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadRunner = async () => {
       try {
-        if (id) {
-          const data = await fetchRunnerById(id);
+        if (userId) {
+          const data = await fetchRunnerById(userId);
           setRunner(data);
         }
       } catch (error) {
-        console.error('Error loading runner:', error);
+        console.error("Error loading runner:", error);
       } finally {
         setLoading(false);
       }
     };
 
     loadRunner();
-  }, [id]);
+  }, [userId]);
 
   if (loading) {
     return (
@@ -35,7 +35,11 @@ const RunnerDetail: React.FC = () => {
   }
 
   if (!runner) {
-    return <Typography variant="h6" color="error">Runner not found</Typography>;
+    return (
+      <Typography variant="h6" color="error">
+        Runner not found
+      </Typography>
+    );
   }
 
   return (

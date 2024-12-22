@@ -5,6 +5,7 @@ const LogoutButton: React.FC = () => {
   const handleLogout = async () => {
     try {
       localStorage.removeItem("user_role");
+      localStorage.removeItem("user_id");
       localStorage.removeItem("runner_token");
 
       window.location.href = "/runners/login";

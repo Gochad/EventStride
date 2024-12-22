@@ -2,51 +2,62 @@ import React, { createContext, useContext, useState, useEffect, ReactNode } from
 
 interface UserContextType {
   userRole: string | null;
+  userId: string | null;
   setUserRole: (role: string | null) => void;
+  setUserId: (id: string | null) => void;
 }
 
-const User = createContext<UserContextType | undefined>(undefined);
+const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [userRole, setUserRoleState] = useState<string | null>(null);
-
-  const updateRole = () => {
-    const role = localStorage.getItem("user_role");
-    setUserRoleState(role);
-  };
-
-  const setUserRole = (role: string | null) => {
-    if (role) {
-      localStorage.setItem("user_role", role);
-    } else {
-      localStorage.removeItem("user_role");
-    }
-    const event = new Event("localStorageUpdate");
-    window.dispatchEvent(event);
-    setUserRoleState(role);
-  };
+  const [userRole, setUserRole] = useState<string | null>(localStorage.getItem("user_role"));
+  const [userId, setUserId] = useState<string | null>(localStorage.getItem("user_id"));
 
   useEffect(() => {
-    updateRole();
+    const handleStorageUpdate = () => {
+      setUserRole(localStorage.getItem("user_role"));
+      setUserId(localStorage.getItem("user_id"));
+    };
 
-    window.addEventListener("localStorageUpdate", updateRole);
+    window.addEventListener("storage", handleStorageUpdate);
 
     return () => {
-      window.removeEventListener("localStorageUpdate", updateRole);
+      window.removeEventListener("storage", handleStorageUpdate);
     };
   }, []);
 
+  const updateLocalStorage = (key: string, value: string | null) => {
+    if (value) {
+      localStorage.setItem(key, value);
+    } else {
+      localStorage.removeItem(key);
+    }
+  };
+
   return (
-    <User.Provider value={{ userRole, setUserRole }}>
+    <UserContext.Provider
+      value={{
+        userRole,
+        userId,
+        setUserRole: (role) => {
+          updateLocalStorage("user_role", role);
+          setUserRole(role);
+        },
+        setUserId: (id) => {
+          updateLocalStorage("user_id", id);
+          setUserId(id);
+        },
+      }}
+    >
       {children}
-    </User.Provider>
+    </UserContext.Provider>
   );
 };
 
 export const useUser = (): UserContextType => {
-  const context = useContext(User);
+  const context = useContext(UserContext);
   if (!context) {
     throw new Error("useUser must be used within a UserProvider");
   }
   return context;
-};
+}
