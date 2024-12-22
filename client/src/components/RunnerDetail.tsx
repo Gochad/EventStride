@@ -94,9 +94,11 @@ const RunnerDetail: React.FC = () => {
                   (e) => new Date(e.date).toDateString() === date.toDateString()
                 );
                 return event ? (
-                  <Typography variant="caption" color="primary">
-                    {event.name}
-                  </Typography>
+                  <Box textAlign="center">
+                    <Typography variant="caption" color="primary">
+                      {event.name}
+                    </Typography>
+                  </Box>
                 ) : null;
               }}
             />
