@@ -5,6 +5,7 @@ interface UserContextType {
   userId: string | null;
   setUserRole: (role: string | null) => void;
   setUserId: (id: string | null) => void;
+  isAdmin: () => boolean;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -34,6 +35,8 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     }
   };
 
+  const isAdmin = () => userRole === "admin";
+
   return (
     <UserContext.Provider
       value={{
@@ -47,6 +50,7 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           updateLocalStorage("user_id", id);
           setUserId(id);
         },
+        isAdmin,
       }}
     >
       {children}
