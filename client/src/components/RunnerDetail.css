@@ -3,11 +3,20 @@
     border-radius: 50%;
     color: #000;
     font-weight: bold;
-  }
+}
 
 .event-day:hover {
     background-color: #ff9999;
     color: #fff;
+}
+
+.calendar-event-name {
+    display: block;
+    margin-top: 4px;       
+    font-size: 0.8rem;
+    color: #3f51b5;
+    font-weight: 600;
+    text-align: center;
 }
 
 .react-calendar {
@@ -40,13 +49,6 @@
 .react-calendar__tile {
     position: relative;
     height: auto;
-}
-  
-.react-calendar__tile .MuiTypography-caption {
-    margin-top: 5px;
-    font-size: 0.8rem;
-    color: #3f51b5;
-    font-weight: 600;
 }
 
 .react-calendar__tile:hover {

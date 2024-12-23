@@ -80,7 +80,7 @@ const RunnerDetail: React.FC = () => {
 
           <Box mt={4}>
             <Typography variant="h6" gutterBottom>
-              Calendar View
+              Events calendar
             </Typography>
             <Calendar
               tileClassName={({ date }) => {
@@ -95,7 +95,7 @@ const RunnerDetail: React.FC = () => {
                 );
                 return event ? (
                   <Box textAlign="center">
-                    <Typography variant="caption" color="primary">
+                    <Typography variant="caption" className="calendar-event-name">
                       {event.name}
                     </Typography>
                   </Box>
