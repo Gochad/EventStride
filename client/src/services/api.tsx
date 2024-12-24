@@ -91,4 +91,24 @@ export const assignRunnerToEvent = async (runnerId: number, eventId: number) => 
   }
 };
 
+export const updateRunner = async (runnerId: number, runnerData: any) => {
+  try {
+    const response = await api.put(`/runners/${runnerId}`, runnerData);
+    return response.data;
+  } catch (error: any) {
+    console.error("Error updating runner:", error.response || error.message);
+    throw error;
+  }
+};
+
+export const deleteRunner = async (runnerId: number) => {
+  try {
+    const response = await api.delete(`/runners/${runnerId}`);
+    return response.data;
+  } catch (error: any) {
+    console.error("Error deleting runner:", error.response || error.message);
+    throw error;
+  }
+};
+
 export default api;
