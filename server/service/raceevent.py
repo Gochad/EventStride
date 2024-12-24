@@ -104,3 +104,60 @@ class RaceEventService:
             {"id": runner.id, "name": runner.name, "age": runner.age, "category": runner.category}
             for runner in event.runners
         ]
+
+
+    @staticmethod
+    def update_race_event(event_id, data):
+        with UnitOfWork(db.session) as uow:
+            model = Model.query.get(event_id)
+            if not model:
+                raise ValueError(f"Race event with ID {event_id} not found.")
+
+            if 'name' in data:
+                model.name = data['name']
+            if 'date' in data:
+                model.date = data['date']
+            if 'distance' in data:
+                model.distance = data['distance']
+            if 'fee' in data:
+                model.fee = data['fee']
+            if 'max_participants' in data:
+                model.max_participants = data['max_participants']
+            if 'location' in data:
+                loc_data = data['location']
+                location = Location.query.filter_by(
+                    city=loc_data['city'], 
+                    country=loc_data['country']
+                ).first()
+                if not location:
+                    location = Location(city=loc_data['city'], country=loc_data['country'])
+                    db.session.add(location)
+                model.location = location
+
+            if 'track' in data:
+                track_data = data['track']
+                track = Track.query.filter_by(
+                    name=track_data['name'],
+                    distance=track_data['distance']
+                ).first()
+                if not track:
+                    track = Track(
+                        name=track_data['name'],
+                        distance=track_data['distance'],
+                        difficulty_level=track_data['difficulty_level']
+                    )
+                    db.session.add(track)
+                model.track = track
+
+            db.session.add(model)
+            updated_race_event = RaceEvent.from_model(model)
+            return updated_race_event
+
+    @staticmethod
+    def delete_race_event(event_id):
+        with UnitOfWork(db.session) as uow:
+            model = Model.query.get(event_id)
+            if not model:
+                raise ValueError(f"Race event with ID {event_id} not found.")
+
+            db.session.delete(model)

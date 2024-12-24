@@ -25,9 +25,22 @@ export interface RaceEvent {
     runners: Runner[];
 }
 
+export interface Payment {
+    id: number;
+    runner_id: number;
+    event_id: number;
+    amount: number;
+    status: string; 
+}
+
+export interface PaymentWithEvent extends Payment {
+    eventName: string;
+    eventDate: string;
+}
+
 export interface Result {
     runner_id: number;
     runner_name: string;
     position: number;
     finish_time: string;
-  }
+}

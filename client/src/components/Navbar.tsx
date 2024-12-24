@@ -20,30 +20,39 @@ const Navbar: React.FC = () => {
           <Button color="inherit" component={Link} to="/runners/profile">
             Profile
           </Button>
-          )
-        }
+        )}
 
         <Box>
-          <Button color="inherit" component={Link} to="/runners/login">
-            Login
-          </Button>
-          <Button color="inherit" component={Link} to="/runners/register">
-            Register
-          </Button>
+          {!userId && (
+            <>
+              <Button color="inherit" component={Link} to="/runners/login">
+                Login
+              </Button>
+              <Button color="inherit" component={Link} to="/runners/register">
+                Register
+              </Button>
+            </>
+          )}
         </Box>
 
         <Box>
           {isAdmin() && (
-              <Button color="inherit" component={Link} to="/runners">
-                Runners
-              </Button>
+            <Button color="inherit" component={Link} to="/runners">
+              Runners
+            </Button>
           )}
           <Button color="inherit" component={Link} to="/race_events">
-                Events
+            Events
           </Button>
+
+          {userId && (
+            <Button color="inherit" component={Link} to="/payments">
+              My Payments
+            </Button>
+          )}
+          
           <LogoutButton />
         </Box>
-        
       </Toolbar>
     </AppBar>
   );

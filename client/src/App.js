@@ -12,6 +12,8 @@ import RaceEventResults from './components/RaceEventResults.tsx';
 import RunnerRegisterForm from './components/RunnerRegistration.tsx';
 import RunnerLoginForm from './components/RunnerLoginForm.tsx';
 import Home from './components/Home.tsx';
+import PaymentHistory from "./components/PaymentHistory.tsx";
+
 
 import { UserProvider } from "./context/User.tsx";
 
@@ -67,6 +69,7 @@ const App = () => {
           />
           <Route path="/runners/register" element={<RunnerRegisterForm />} />
           <Route path="/runners/login" element={<RunnerLoginForm />} />
+          <Route path="/payments" element={<PaymentHistory />} />
         </Routes>
       </ThemeProvider>
     </UserProvider>  

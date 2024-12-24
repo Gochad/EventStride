@@ -182,3 +182,28 @@ def add_sponsor_to_event(event_id):
         return jsonify({'message': 'Sponsor added successfully', 'sponsor_id': sponsor.id}), 200
     except Exception as e:
         return jsonify({'error': str(e)}), 400
+
+@api.route('/race_events/<int:event_id>', methods=['PUT'])
+def update_race_event(event_id):
+    data = request.get_json()
+    try:
+        updated_event = RaceEventService.update_race_event(event_id, data)
+        return jsonify({
+            'message': 'Race event updated successfully',
+            'event': updated_event
+        }), 200
+    except ValueError as e:
+        return jsonify({'error': str(e)}), 404
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
+
+
+@api.route('/race_events/<int:event_id>', methods=['DELETE'])
+def delete_race_event(event_id):
+    try:
+        RaceEventService.delete_race_event(event_id)
+        return jsonify({'message': 'Race event deleted successfully'}), 200
+    except ValueError as e:
+        return jsonify({'error': str(e)}), 404
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400

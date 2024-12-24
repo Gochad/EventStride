@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 import CONFIG from '../config.tsx';
+import { RaceEvent } from "../types";
 
 const api = axios.create({
     baseURL: `${CONFIG.API_URL}/api`,
@@ -107,6 +108,31 @@ export const deleteRunner = async (runnerId: number) => {
     return response.data;
   } catch (error: any) {
     console.error("Error deleting runner:", error.response || error.message);
+    throw error;
+  }
+};
+
+export const getEventById = async (eventId: number): Promise<RaceEvent> => {
+  const response = await api.get(`/race_events/${eventId}`);
+  return response.data;
+};
+
+export const updateRaceEvent = async (eventId: number, eventData: Partial<RaceEvent>) => {
+  try {
+    const response = await api.put(`/race_events/${eventId}`, eventData);
+    return response.data;
+  } catch (error: any) {
+    console.error("Error updating race event:", error.response || error.message);
+    throw error;
+  }
+};
+
+export const deleteRaceEvent = async (eventId: number) => {
+  try {
+    const response = await api.delete(`/race_events/${eventId}`);
+    return response.data;
+  } catch (error: any) {
+    console.error("Error deleting race event:", error.response || error.message);
     throw error;
   }
 };
