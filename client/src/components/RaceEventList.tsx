@@ -122,7 +122,12 @@ const RaceEventList: React.FC = () => {
         {events.map((event) => (
           <React.Fragment key={event.id}>
             <ListItem>
-              <Box display="flex" flexDirection="column" width="100%">
+              <Box
+                display="flex"
+                alignItems="center"
+                justifyContent="space-between"
+                width="100%"
+              >
                 <Link
                   to={`/race_events/${event.id}`}
                   style={{ textDecoration: "none", color: "inherit" }}
@@ -130,7 +135,7 @@ const RaceEventList: React.FC = () => {
                   <ListItemText primary={event.name} secondary={event.date} />
                 </Link>
 
-                <Box display="flex" gap={2} sx={{ mt: 1 }}>
+                <Box display="flex" gap={2}>
                   <Button
                     variant="outlined"
                     color="secondary"
